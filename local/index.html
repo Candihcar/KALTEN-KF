@@ -1,0 +1,4816 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f1f33">
+<meta name="description" content="Официальный портал Комаринской Федерации. Автономная демонстрационная версия для локального просмотра.">
+<title>Официальный портал Комаринской Федерации — демонстрационная версия</title>
+<style>
+:root {
+  --navy-900: #0c1a2b;
+  --navy-800: #102338;
+  --navy-700: #17324c;
+  --navy-600: #1d4266;
+  --ink: #17212f;
+  --body: #33404f;
+  --muted: #5c6a7c;
+  --line: #dbe2ea;
+  --line-soft: #e8edf2;
+  --bg: #f3f5f8;
+  --paper: #ffffff;
+  --paper-soft: #f8f9fb;
+  --accent: #1c5a8f;
+  --accent-dark: #134269;
+  --gold: #a9854f;
+  --green: #1f6b4a;
+  --amber: #8a5a12;
+  --red: #8b2f2f;
+  --serif: Georgia, 'Times New Roman', 'Noto Serif', serif;
+  --sans: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --shadow: 0 1px 2px rgba(15, 31, 51, 0.05), 0 10px 28px rgba(15, 31, 51, 0.045);
+  --radius: 2px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--body);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+::selection {
+  background: rgba(28, 90, 143, 0.18);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.container {
+  width: min(1180px, 100% - 48px);
+  margin-inline: auto;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: -60px;
+  left: 16px;
+  z-index: 200;
+  padding: 10px 16px;
+  background: var(--paper);
+  border: 1px solid var(--accent);
+  color: var(--accent-dark);
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 12px;
+  text-decoration: none;
+}
+
+.icon {
+  flex: none;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+code {
+  padding: 1px 5px;
+  background: #eef1f5;
+  border: 1px solid var(--line-soft);
+  border-radius: 2px;
+  color: var(--navy-700);
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+/* ---------- Top line ---------- */
+
+.topline {
+  background: var(--navy-900);
+  color: #b9c6d7;
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+}
+
+.topline-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 38px;
+}
+
+.topline-note {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topline-links {
+  display: flex;
+  gap: 18px;
+  flex: none;
+}
+
+.topline-links a {
+  color: #d3dce7;
+}
+
+.topline-links a:hover {
+  color: #ffffff;
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  z-index: 60;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 18px 0;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--ink);
+  text-decoration: none;
+  min-width: 0;
+}
+
+.brand:hover {
+  text-decoration: none;
+}
+
+.brand-emblem {
+  color: var(--navy-800);
+  flex: none;
+}
+
+.brand-text {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+
+.brand-title {
+  font-family: var(--serif);
+  font-size: clamp(19px, 2vw, 23px);
+  line-height: 1.15;
+  letter-spacing: 0.005em;
+  color: var(--navy-900);
+  white-space: nowrap;
+}
+
+.brand-subtitle {
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+}
+
+.header-search {
+  width: 300px;
+}
+
+.search-field {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--line);
+  background: var(--paper-soft);
+  border-radius: var(--radius);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.search-field:focus-within {
+  border-color: var(--accent);
+  background: var(--paper);
+}
+
+.search-field input {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 12px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.search-field input:focus {
+  outline: none;
+}
+
+.search-field input::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
+.search-field button {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  border: 0;
+  border-left: 1px solid var(--line-soft);
+  background: transparent;
+  color: var(--accent-dark);
+}
+
+.search-field button:hover {
+  background: #eef2f7;
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--navy-700);
+  border-radius: var(--radius);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.icon-button:hover {
+  border-color: #b9c6d5;
+  background: var(--paper-soft);
+  text-decoration: none;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+/* ---------- Navigation ---------- */
+
+.main-nav {
+  border-top: 1px solid var(--line-soft);
+  background: var(--paper);
+  position: sticky;
+  top: 0;
+  z-index: 55;
+}
+
+.nav-list {
+  display: flex;
+  align-items: stretch;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.nav-list::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 13px 13px 12px;
+  border-bottom: 2px solid transparent;
+  color: #364354;
+  font-size: 13.5px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  background: var(--paper-soft);
+  color: var(--navy-800);
+  text-decoration: none;
+}
+
+.nav-link.active {
+  border-bottom-color: var(--gold);
+  color: var(--navy-900);
+  font-weight: 600;
+}
+
+.mobile-panel {
+  display: none;
+  border-top: 1px solid var(--line);
+  background: var(--paper);
+  padding: 16px 0 20px;
+}
+
+.mobile-panel .search-field {
+  margin-bottom: 12px;
+}
+
+.mobile-nav-list {
+  display: grid;
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 6px;
+  border-bottom: 1px solid var(--line-soft);
+  color: var(--body);
+  font-size: 15px;
+}
+
+.mobile-nav-link:hover {
+  color: var(--accent-dark);
+  text-decoration: none;
+}
+
+.mobile-nav-link.active {
+  color: var(--navy-900);
+  font-weight: 600;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.btn:hover {
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--navy-800);
+  border-color: var(--navy-800);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: var(--navy-900);
+  border-color: var(--navy-900);
+}
+
+.btn-secondary {
+  background: var(--paper);
+  border-color: #c7d2df;
+  color: var(--navy-800);
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  background: #f4f8fc;
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--accent-dark);
+}
+
+.btn-ghost:hover {
+  background: #eef2f7;
+}
+
+.btn-sm {
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--accent-dark);
+}
+
+.text-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent-dark);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.text-button:hover {
+  text-decoration: underline;
+}
+
+.text-button-danger {
+  color: var(--red);
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(320px, 0.85fr);
+  gap: 56px;
+  align-items: center;
+  padding: 58px 0 60px;
+}
+
+.hero-kicker {
+  margin-bottom: 14px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+}
+
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(36px, 5.2vw, 58px);
+  line-height: 1.06;
+  font-weight: 400;
+  letter-spacing: -0.012em;
+  color: var(--navy-900);
+}
+
+.hero-lead {
+  max-width: 620px;
+  margin-top: 20px;
+  font-size: 17.5px;
+  line-height: 1.65;
+  color: #465363;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.hero-note {
+  max-width: 600px;
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line-soft);
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.hero-aside {
+  background: var(--paper-soft);
+  border: 1px solid var(--line);
+  padding: 28px;
+}
+
+.hero-seal-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.hero-emblem {
+  color: var(--navy-800);
+}
+
+.hero-seal-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.hero-seal-text {
+  margin-top: 5px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.hero-divider {
+  height: 1px;
+  background: var(--line);
+  margin: 22px 0 18px;
+}
+
+.hero-facts {
+  display: grid;
+  gap: 13px;
+}
+
+.hero-facts div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.hero-facts dt {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.hero-facts dd {
+  font-size: 13.5px;
+  font-weight: 600;
+  text-align: right;
+}
+
+/* ---------- Page scaffolding ---------- */
+
+.site-main {
+  min-height: 60vh;
+}
+
+.page-header {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  padding: 26px 0 34px;
+}
+
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 20px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.breadcrumbs li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.breadcrumbs li + li::before {
+  content: '/';
+  color: #a7b2c0;
+}
+
+.breadcrumbs a {
+  color: var(--muted);
+}
+
+.breadcrumbs a:hover {
+  color: var(--accent-dark);
+}
+
+.breadcrumbs [aria-current='page'] {
+  color: var(--body);
+}
+
+.kicker {
+  margin-bottom: 9px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.17em;
+  color: var(--gold);
+}
+
+.page-title {
+  font-family: var(--serif);
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1.14;
+  font-weight: 400;
+  color: var(--navy-900);
+}
+
+.page-description {
+  max-width: 760px;
+  margin-top: 13px;
+  font-size: 15.5px;
+  color: var(--muted);
+}
+
+.page-header-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.page-header-actions {
+  flex: none;
+}
+
+.page-body {
+  padding: 30px 0 64px;
+}
+
+.page-note {
+  max-width: 820px;
+  margin-top: 32px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+/* ---------- Notices and states ---------- */
+
+.notice {
+  margin-bottom: 24px;
+  padding: 15px 18px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  background: var(--paper);
+  font-size: 14px;
+  color: var(--body);
+}
+
+.notice-title {
+  margin-bottom: 4px;
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+.notice-text {
+  line-height: 1.6;
+}
+
+.notice-warning {
+  border-left-color: var(--amber);
+  background: #fdfaf4;
+}
+
+.notice-error {
+  border-left-color: var(--red);
+  background: #fdf7f7;
+}
+
+.notice-success {
+  border-left-color: var(--green);
+  background: #f6faf8;
+}
+
+.callout {
+  margin: 20px 0;
+  padding: 13px 16px;
+  border: 1px dashed #d8c6a6;
+  background: #fbf7ef;
+  color: #5e4a29;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.callout-demo strong {
+  color: #5a421c;
+}
+
+.empty-state {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 56px 24px;
+  border: 1px dashed #cbd5e1;
+  background: rgba(255, 255, 255, 0.65);
+  text-align: center;
+  color: var(--muted);
+}
+
+.empty-state svg {
+  color: #97a5b6;
+}
+
+.empty-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--navy-800);
+}
+
+.empty-text {
+  max-width: 480px;
+  font-size: 13.5px;
+}
+
+.empty-state-compact {
+  padding: 24px 16px;
+  background: transparent;
+}
+
+.loading-state {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--line);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .spinner {
+    animation-duration: 2s;
+  }
+}
+
+.error-state {
+  padding: 24px;
+  border: 1px solid #e5c7c7;
+  border-left: 3px solid var(--red);
+  background: #fdf8f8;
+}
+
+.error-title {
+  font-weight: 700;
+  color: #6f2222;
+}
+
+.error-text {
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+.error-hint {
+  margin-top: 10px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+/* ---------- Badges ---------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 7px;
+  border-radius: 2px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.badge-neutral {
+  background: #eef1f5;
+  color: #4b5766;
+}
+
+.badge-navy {
+  background: #e7eef6;
+  color: #1a4b78;
+}
+
+.badge-green {
+  background: #e7f2ec;
+  color: #1f6345;
+}
+
+.badge-amber {
+  background: #faf0dd;
+  color: #7a5310;
+}
+
+.badge-red {
+  background: #f7e8e8;
+  color: #802b2b;
+}
+
+.badge-gold {
+  background: #f7f0e2;
+  color: #6d5023;
+}
+
+.card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.demo-inline {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 5px;
+  border: 1px solid #d9c39b;
+  color: #7c5a2b;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+/* ---------- Home ---------- */
+
+.home-body {
+  padding: 38px 0 64px;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2.15fr) minmax(300px, 0.85fr);
+  gap: 40px;
+  align-items: start;
+}
+
+.home-aside {
+  display: grid;
+  gap: 24px;
+}
+
+.section {
+  margin-top: 58px;
+}
+
+.section-last {
+  padding-bottom: 8px;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(22px, 2.4vw, 28px);
+  font-weight: 400;
+  color: var(--navy-900);
+}
+
+.section-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent-dark);
+  white-space: nowrap;
+}
+
+.featured-card {
+  padding: 26px 28px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--navy-800);
+  box-shadow: var(--shadow);
+}
+
+.card-topline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.featured-title {
+  font-family: var(--serif);
+  font-size: clamp(24px, 2.6vw, 31px);
+  line-height: 1.22;
+  font-weight: 400;
+  color: var(--navy-900);
+}
+
+.featured-title a {
+  color: inherit;
+}
+
+.featured-title a:hover {
+  color: var(--accent-dark);
+  text-decoration: none;
+}
+
+.featured-summary {
+  margin-top: 12px;
+  font-size: 15px;
+  color: var(--body);
+}
+
+.card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin-top: 18px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.card-footer .text-link {
+  margin-left: auto;
+}
+
+.news-rows {
+  margin-top: 6px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-top: 0;
+}
+
+.news-row {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 18px;
+  padding: 20px 22px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.news-row:first-child {
+  border-top: 0;
+}
+
+.news-row-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 2px;
+  border-right: 1px solid var(--line-soft);
+}
+
+.news-row-day {
+  font-family: var(--serif);
+  font-size: 24px;
+  line-height: 1;
+  color: var(--navy-800);
+}
+
+.news-row-month {
+  margin-top: 4px;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.news-row-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.news-row-body h3 {
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.3;
+  font-weight: 400;
+}
+
+.news-row-body h3 a {
+  color: var(--navy-900);
+}
+
+.news-row-body h3 a:hover {
+  color: var(--accent-dark);
+}
+
+.news-row-body p {
+  margin-top: 6px;
+  font-size: 13.5px;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.panel {
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.panel-muted {
+  background: var(--paper-soft);
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.panel-head h2 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--navy-800);
+}
+
+.panel-body {
+  padding: 18px 20px;
+}
+
+.announcement-list {
+  display: grid;
+  gap: 16px;
+}
+
+.announcement-list li {
+  display: grid;
+  gap: 4px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.announcement-list li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.announcement-list time {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+}
+
+.announcement-list a {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--navy-800);
+  font-weight: 600;
+}
+
+.quick-list {
+  display: grid;
+}
+
+.quick-list li + li {
+  border-top: 1px solid var(--line-soft);
+}
+
+.quick-list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 0;
+  color: var(--body);
+  font-size: 13.5px;
+}
+
+.quick-list a:hover {
+  color: var(--accent-dark);
+  text-decoration: none;
+}
+
+.quick-list li:first-child a {
+  padding-top: 2px;
+}
+
+.quick-list li:last-child a {
+  padding-bottom: 2px;
+}
+
+.doc-list {
+  display: grid;
+  gap: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.doc-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 22px 24px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.doc-row:first-child {
+  border-top: 0;
+}
+
+.doc-row-main {
+  min-width: 0;
+}
+
+.doc-row-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 5px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.doc-row-sep {
+  color: #c3ccd8;
+}
+
+.doc-row h3 {
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.32;
+  font-weight: 400;
+}
+
+.doc-row h3 a {
+  color: var(--navy-900);
+}
+
+.doc-row h3 a:hover {
+  color: var(--accent-dark);
+}
+
+.doc-row p {
+  margin-top: 6px;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+
+.doc-row-meta {
+  display: grid;
+  gap: 3px;
+  flex: none;
+  min-width: 190px;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: right;
+}
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.quick-card {
+  position: relative;
+  padding: 22px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  color: var(--body);
+  min-height: 132px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.quick-card:hover {
+  border-color: #b8c7d7;
+  box-shadow: var(--shadow);
+  text-decoration: none;
+}
+
+.quick-card h3 {
+  margin-bottom: 6px;
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--navy-900);
+}
+
+.quick-card p {
+  max-width: 90%;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.quick-card-arrow {
+  position: absolute;
+  right: 20px;
+  bottom: 16px;
+  color: #9aa8b8;
+}
+
+.quick-card:hover .quick-card-arrow {
+  color: var(--accent);
+}
+
+/* ---------- Filters ---------- */
+
+.filter-bar {
+  margin-bottom: 26px;
+  padding: 18px 20px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.filter-bar-inline {
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+
+.filter-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+.field {
+  display: grid;
+  gap: 5px;
+  min-width: 160px;
+}
+
+.field-grow {
+  flex: 1 1 260px;
+}
+
+.field label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.input:focus,
+.select:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(28, 90, 143, 0.12);
+}
+
+.input::placeholder {
+  color: #98a4b3;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 84px;
+}
+
+.input-lg {
+  padding: 13px 15px;
+  font-size: 16px;
+}
+
+.filter-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+
+.field-hint {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 13.5px;
+  color: var(--body);
+}
+
+.checkbox-row input {
+  margin-top: 4px;
+  accent-color: var(--accent);
+}
+
+.results-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+/* ---------- News ---------- */
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.news-card {
+  display: flex;
+  flex-direction: column;
+  padding: 22px 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.news-card:hover {
+  border-color: #bcc9d8;
+  box-shadow: var(--shadow);
+}
+
+.news-card .card-topline {
+  margin-bottom: 10px;
+}
+
+.news-card-title {
+  font-family: var(--serif);
+  font-size: 22px;
+  line-height: 1.28;
+  font-weight: 400;
+}
+
+.news-card-title a {
+  color: var(--navy-900);
+}
+
+.news-card-title a:hover {
+  color: var(--accent-dark);
+}
+
+.news-card-summary {
+  margin-top: 9px;
+  font-size: 14px;
+  color: var(--body);
+}
+
+.news-card .card-footer {
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+.card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 14px;
+  padding-top: 13px;
+  border-top: 1px solid var(--line-soft);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-dark);
+}
+
+/* ---------- Article / documents ---------- */
+
+.article-header {
+  padding: 6px 0 26px;
+  border-bottom: 1px solid var(--line);
+}
+
+.article-title {
+  max-width: 900px;
+  margin-top: 14px;
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.16;
+  font-weight: 400;
+  color: var(--navy-900);
+}
+
+.article-number {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent-dark);
+}
+
+.article-summary {
+  max-width: 820px;
+  margin-top: 14px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: #4b5767;
+}
+
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin-top: 18px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.article-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 48px;
+  align-items: start;
+  padding-top: 32px;
+}
+
+.article-body {
+  min-width: 0;
+}
+
+.article-aside {
+  display: grid;
+  gap: 16px;
+  position: sticky;
+  top: 70px;
+}
+
+.meta-card {
+  padding: 20px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.meta-card h2 {
+  margin-bottom: 13px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--navy-800);
+}
+
+.meta-list {
+  display: grid;
+  gap: 10px;
+}
+
+.meta-list div {
+  display: grid;
+  gap: 1px;
+}
+
+.meta-list dt {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.meta-list dd {
+  font-size: 13.5px;
+  color: var(--ink);
+}
+
+.prose {
+  max-width: 74ch;
+  font-size: 15.5px;
+  line-height: 1.8;
+  color: #2f3b4a;
+}
+
+.prose p + p {
+  margin-top: 1.05em;
+}
+
+.content-section {
+  margin-top: 34px;
+  scroll-margin-top: 80px;
+}
+
+.content-section:first-child {
+  margin-top: 0;
+}
+
+.content-section > h2 {
+  margin-bottom: 14px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--navy-900);
+}
+
+.dates-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 26px 0 4px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.dates-grid > div {
+  display: grid;
+  gap: 3px;
+  padding: 13px 16px;
+  background: var(--paper);
+}
+
+.dates-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.dates-value {
+  font-size: 13.5px;
+  color: var(--ink);
+}
+
+.history-list {
+  display: grid;
+  gap: 0;
+  border-left: 1px solid var(--line);
+  margin-left: 4px;
+}
+
+.history-list li {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  padding: 0 0 16px 20px;
+}
+
+.history-list li::before {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: 7px;
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+}
+
+.history-list time {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.history-list span {
+  font-size: 14px;
+}
+
+.related-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.related-list a {
+  display: inline-block;
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font-size: 12.5px;
+  color: var(--accent-dark);
+}
+
+.related-list a:hover {
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+/* ---------- Duma ---------- */
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin-bottom: 26px;
+  border-bottom: 1px solid var(--line);
+}
+
+.tab {
+  padding: 11px 17px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.tab:hover {
+  color: var(--navy-800);
+  background: var(--paper-soft);
+}
+
+.tab.active {
+  border-bottom-color: var(--navy-800);
+  color: var(--navy-900);
+}
+
+.bill-list,
+.session-list {
+  display: grid;
+  gap: 14px;
+}
+
+.bill-card {
+  padding: 22px 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.bill-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 9px;
+}
+
+.doc-number {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-dark);
+  letter-spacing: 0.02em;
+}
+
+.doc-type {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.bill-card h2 {
+  font-family: var(--serif);
+  font-size: 21px;
+  line-height: 1.3;
+  font-weight: 400;
+}
+
+.bill-card h2 a,
+.doc-card h2 a {
+  color: var(--navy-900);
+}
+
+.bill-card h2 a:hover,
+.doc-card h2 a:hover {
+  color: var(--accent-dark);
+}
+
+.bill-card p,
+.doc-card p {
+  margin-top: 7px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.session-item {
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.session-item summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px 16px;
+  padding: 16px 20px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.session-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.session-item summary::after {
+  content: '+';
+  margin-left: auto;
+  color: var(--accent);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.session-item[open] summary::after {
+  content: '−';
+}
+
+.session-item[open] summary {
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.session-title {
+  flex: 1;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--navy-900);
+}
+
+.session-date {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.session-body {
+  padding: 18px 20px 22px;
+}
+
+.timeline {
+  display: grid;
+  gap: 0;
+  border-left: 1px solid var(--line);
+  margin-left: 4px;
+}
+
+.timeline li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 18px;
+  padding: 0 0 22px 20px;
+}
+
+.timeline li::before {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: 7px;
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+}
+
+.timeline time {
+  font-size: 11.5px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.timeline h3 {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--navy-900);
+}
+
+.timeline p {
+  margin-top: 3px;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.data-table th {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper-soft);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.data-table td {
+  padding: 12px 14px;
+  border-top: 1px solid var(--line-soft);
+  vertical-align: top;
+  color: var(--body);
+}
+
+.table-note {
+  display: block;
+  margin-top: 3px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+/* ---------- Legislation ---------- */
+
+.doc-card {
+  padding: 22px 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.doc-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 9px;
+}
+
+.doc-card h2 {
+  font-family: var(--serif);
+  font-size: 21px;
+  line-height: 1.32;
+  font-weight: 400;
+}
+
+/* ---------- Codes ---------- */
+
+.code-groups,
+.bodies-groups,
+.search-groups {
+  display: grid;
+  gap: 34px;
+}
+
+.code-group-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--line);
+}
+
+.code-group-head h2 {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--navy-900);
+}
+
+.code-group-head span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.code-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.code-card {
+  display: flex;
+  flex-direction: column;
+  padding: 18px 20px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.code-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+}
+
+.code-card h3 {
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.34;
+  font-weight: 400;
+}
+
+.code-card h3 a {
+  color: var(--navy-900);
+}
+
+.code-card h3 a:hover {
+  color: var(--accent-dark);
+}
+
+.code-part {
+  margin-top: 5px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.code-description {
+  margin-top: 7px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.code-card-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 13px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.code-sanction {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+/* ---------- Bodies ---------- */
+
+.bodies-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.body-card {
+  display: flex;
+  flex-direction: column;
+  padding: 22px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.body-kind {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.body-card h3 {
+  margin-top: 7px;
+  font-family: var(--serif);
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: 400;
+}
+
+.body-card h3 a {
+  color: var(--navy-900);
+}
+
+.body-card h3 a:hover {
+  color: var(--accent-dark);
+}
+
+.body-card p {
+  margin-top: 8px;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+
+.body-card .card-link {
+  margin-top: auto;
+}
+
+/* ---------- International ---------- */
+
+.intl-list {
+  display: grid;
+  gap: 16px;
+}
+
+.intl-card {
+  padding: 22px 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.intl-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 9px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.intl-country {
+  font-weight: 600;
+  color: var(--body);
+}
+
+.intl-date {
+  margin-left: auto;
+}
+
+.intl-card h2 {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.32;
+  color: var(--navy-900);
+}
+
+.intl-card > p {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--body);
+}
+
+.intl-meta {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.intl-body {
+  margin-top: 12px;
+  border-top: 1px solid var(--line-soft);
+  padding-top: 10px;
+}
+
+.intl-body summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-dark);
+}
+
+.intl-body .prose {
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+/* ---------- About ---------- */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 48px;
+  align-items: start;
+}
+
+.about-aside {
+  display: grid;
+  gap: 16px;
+  position: sticky;
+  top: 70px;
+}
+
+.about-list {
+  display: grid;
+  gap: 13px;
+  padding-left: 0;
+}
+
+.about-list li {
+  padding-left: 18px;
+  border-left: 2px solid var(--line);
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+
+.about-list strong {
+  color: var(--navy-900);
+}
+
+.about-main p + p {
+  margin-top: 12px;
+}
+
+.developer-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+  padding: 16px 18px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.developer-card svg {
+  color: var(--navy-800);
+}
+
+.developer-name {
+  font-family: var(--serif);
+  font-size: 19px;
+  color: var(--navy-900);
+}
+
+.developer-role {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.developer-credit {
+  margin-top: 16px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+}
+
+/* ---------- Search ---------- */
+
+.search-page-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.search-groups {
+  gap: 28px;
+}
+
+.search-list {
+  display: grid;
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.search-list li {
+  display: grid;
+  gap: 3px;
+  padding: 14px 18px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.search-list li:first-child {
+  border-top: 0;
+}
+
+.search-list a {
+  font-family: var(--serif);
+  font-size: 17px;
+  color: var(--navy-900);
+}
+
+.search-list span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ---------- Admin ---------- */
+
+.admin-login {
+  max-width: 440px;
+}
+
+.stack {
+  display: grid;
+  gap: 14px;
+}
+
+.stack-sm {
+  display: grid;
+  gap: 8px;
+}
+
+.admin-workspace {
+  display: grid;
+  gap: 24px;
+}
+
+.admin-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.admin-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--navy-900);
+}
+
+.admin-table td {
+  font-size: 13px;
+}
+
+.admin-post-title {
+  display: inline-block;
+  max-width: 340px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.admin-row-actions {
+  display: flex;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+.admin-form {
+  display: grid;
+  gap: 16px;
+  max-width: 780px;
+}
+
+.admin-form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.admin-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.admin-footer-actions {
+  margin-top: 22px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  margin-top: 20px;
+  background: var(--navy-900);
+  color: #b8c5d5;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 0.8fr 1fr 1.1fr;
+  gap: 40px;
+  padding: 46px 0 36px;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.footer-brand svg {
+  color: #24445f;
+  flex: none;
+}
+
+.footer-title {
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.35;
+  color: #ffffff;
+}
+
+.footer-text {
+  max-width: 320px;
+  margin-top: 7px;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: #93a4b9;
+}
+
+.footer-col h2 {
+  margin-bottom: 12px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: #d6dfea;
+}
+
+.footer-col ul {
+  display: grid;
+  gap: 7px;
+}
+
+.footer-col a {
+  font-size: 12.5px;
+  color: #aab8c9;
+}
+
+.footer-col a:hover {
+  color: #ffffff;
+}
+
+.footer-note {
+  margin-top: 14px;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: #8496ab;
+}
+
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 0 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 11.5px;
+  color: #8fa1b6;
+}
+
+.footer-credit {
+  color: #b9c6d7;
+  letter-spacing: 0.03em;
+}
+
+/* ---------- Misc ---------- */
+
+.not-found {
+  padding-top: 60px;
+  padding-bottom: 90px;
+}
+
+.not-found .hero-actions {
+  margin-top: 24px;
+}
+
+.section-head + .doc-list,
+.section-head + .quick-grid {
+  margin-top: 0;
+}
+
+@media (max-width: 1080px) {
+  .main-nav {
+    display: none;
+  }
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 70;
+    box-shadow: 0 1px 0 rgba(15, 31, 51, 0.04);
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+  }
+
+  .header-admin span {
+    display: none;
+  }
+
+  .mobile-panel.open {
+    display: block;
+  }
+
+  .nav-list {
+    display: none;
+  }
+
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 34px;
+    padding: 42px 0 46px;
+  }
+
+  .hero-aside {
+    max-width: 620px;
+  }
+
+  .home-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .article-layout,
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .article-aside,
+  .about-aside {
+    position: static;
+  }
+
+  .bodies-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .footer-grid {
+    grid-template-columns: 1.4fr 1fr 1fr;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 820px) {
+  .header-search {
+    display: none;
+  }
+
+  .topline-links a:last-child {
+    display: none;
+  }
+
+  .news-grid,
+  .code-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .doc-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .doc-row-meta {
+    min-width: 0;
+    text-align: left;
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
+  }
+
+  .dates-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-page-form {
+    flex-direction: column;
+  }
+
+  .search-page-form .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    width: min(1180px, 100% - 32px);
+  }
+
+  body {
+    font-size: 15px;
+  }
+
+  .topline-note {
+    font-size: 11.5px;
+  }
+
+  .topline-links {
+    display: none;
+  }
+
+  .header-inner {
+    padding: 12px 0;
+  }
+
+  .brand-emblem {
+    width: 38px;
+    height: 38px;
+  }
+
+  .brand-title {
+    font-size: 17px;
+    white-space: normal;
+  }
+
+  .brand-subtitle {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+  }
+
+  .icon-button {
+    padding: 8px 9px;
+  }
+
+  .icon-button span {
+    display: none;
+  }
+
+  .hero-inner {
+    padding: 32px 0 36px;
+  }
+
+  .hero-title {
+    font-size: 34px;
+  }
+
+  .hero-lead {
+    font-size: 15.5px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-aside {
+    padding: 20px;
+  }
+
+  .hero-seal-row {
+    align-items: flex-start;
+  }
+
+  .hero-facts div {
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .hero-facts dd {
+    text-align: left;
+  }
+
+  .page-header {
+    padding: 18px 0 24px;
+  }
+
+  .page-body {
+    padding: 22px 0 48px;
+  }
+
+  .page-title {
+    font-size: 30px;
+  }
+
+  .breadcrumbs ol {
+    margin-bottom: 14px;
+  }
+
+  .section {
+    margin-top: 42px;
+  }
+
+  .section-head {
+    align-items: flex-start;
+  }
+
+  .featured-card,
+  .news-card,
+  .doc-row,
+  .doc-card,
+  .bill-card,
+  .intl-card {
+    padding: 18px;
+  }
+
+  .news-row {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .news-row-day {
+    font-size: 20px;
+  }
+
+  .filter-grid {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .field {
+    min-width: 0;
+  }
+
+  .filter-actions {
+    width: 100%;
+  }
+
+  .filter-actions .btn {
+    flex: 1;
+  }
+
+  .quick-grid,
+  .bodies-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dates-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .timeline li {
+    grid-template-columns: 1fr;
+    gap: 3px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    padding: 34px 0 26px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .article-title {
+    font-size: 28px;
+  }
+
+  .article-summary {
+    font-size: 15.5px;
+  }
+
+  .content-section > h2 {
+    font-size: 21px;
+  }
+
+  .card-footer .text-link {
+    margin-left: 0;
+  }
+
+  .footer-brand svg {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+@media (max-width: 380px) {
+  .brand-title {
+    font-size: 15.5px;
+  }
+
+  .brand-subtitle {
+    display: none;
+  }
+
+  .dates-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+/* ---------- Local standalone version ---------- */
+
+.demo-ribbon {
+  background: #fbf4e5;
+  border-bottom: 1px solid #e6d5b3;
+  color: #644b22;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.demo-ribbon .container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 12px;
+  padding: 7px 0;
+  text-align: center;
+}
+
+.demo-ribbon strong {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #6b4d1c;
+}
+
+.demo-ribbon a {
+  color: #5f4518;
+  text-decoration: underline;
+}
+
+.local-note-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.local-facts {
+  display: grid;
+  gap: 10px;
+}
+
+.local-facts div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.local-facts dt {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.local-facts dd {
+  font-size: 12.5px;
+  font-weight: 600;
+  text-align: right;
+  color: var(--ink);
+}
+
+.hero-disclaimer {
+  margin-top: 16px;
+  padding: 10px 12px;
+  border: 1px dashed #d8c6a6;
+  background: #fbf7ef;
+  color: #5e4a29;
+  font-size: 11.5px;
+  line-height: 1.55;
+}
+
+.demo-editor-intro {
+  display: grid;
+  gap: 4px;
+}
+
+.inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.table-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.table-actions button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent-dark);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.table-actions button:hover {
+  text-decoration: underline;
+}
+
+.table-actions .danger {
+  color: var(--red);
+}
+
+.toast-container {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+  display: grid;
+  gap: 8px;
+  width: min(370px, calc(100vw - 32px));
+  pointer-events: none;
+}
+
+.toast {
+  padding: 12px 15px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--green);
+  background: var(--paper);
+  color: var(--body);
+  font-size: 13px;
+  line-height: 1.5;
+  box-shadow: 0 8px 28px rgba(15, 31, 51, 0.16);
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.toast-error {
+  border-left-color: var(--red);
+}
+
+.toast-out {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.admin-editor-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.local-hint {
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: var(--paper-soft);
+  border: 1px solid var(--line-soft);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.search-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.archive-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.archive-list a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line-soft);
+  color: var(--body);
+  font-size: 13.5px;
+}
+
+.archive-list time {
+  flex: none;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.local-footer-note {
+  margin-top: 14px;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: #8496ab;
+}
+
+.local-footer-note a {
+  color: #b8c5d5;
+  text-decoration: underline;
+}
+
+@media (max-width: 820px) {
+  .admin-editor-grid {
+    grid-template-columns: 1fr;
+  }
+  .local-facts div {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1px;
+  }
+  .local-facts dd {
+    text-align: left;
+  }
+}
+
+@media (max-width: 600px) {
+  .demo-ribbon {
+    font-size: 11px;
+  }
+  .demo-ribbon .container {
+    padding: 7px 4px;
+  }
+  .toast-container {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    width: auto;
+  }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Перейти к основному содержимому</a>
+
+<div class="demo-ribbon" role="note">
+  <div class="container">
+    <strong>Демонстрационная версия</strong>
+    <span>Материалы не являются официальными документами КФ и не публикуются в базе данных.</span>
+    <a href="#/about">Подробнее</a>
+  </div>
+</div>
+
+<div class="topline">
+  <div class="container topline-inner">
+    <span class="topline-note">Официальный информационный портал Комаринской Федерации</span>
+    <div class="topline-links">
+      <a href="#/about">О портале</a>
+      <a href="#/demo-admin">Демо-редактор</a>
+    </div>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#/" aria-label="На главную страницу">
+      <svg class="brand-emblem" width="46" height="46" viewBox="0 0 64 64" role="img" aria-label="Временный знак официального портала Комаринской Федерации">
+        <rect width="64" height="64" fill="currentColor"></rect>
+        <path d="M32 8 52 18v16c0 11-8.4 18.6-20 22-11.6-3.4-20-11-20-22V18L32 8Z" fill="none" stroke="#c9d5e3" stroke-width="2"></path>
+        <path d="M22 24v16M22 32h8l7-8M30 32l7 8" fill="none" stroke="#ffffff" stroke-width="2.4"></path>
+        <path d="M41 24v16" stroke="#b08d57" stroke-width="2.4"></path>
+      </svg>
+      <span class="brand-text">
+        <span class="brand-title">Комаринская Федерация</span>
+        <span class="brand-subtitle">Официальный портал</span>
+      </span>
+    </a>
+
+    <div class="header-actions">
+      <div class="header-search">
+        <form class="search-field" id="global-search-form" role="search">
+          <label class="visually-hidden" for="global-search">Поиск по порталу</label>
+          <input id="global-search" name="q" type="search" placeholder="Поиск по порталу" autocomplete="off">
+          <button type="submit" aria-label="Найти">
+            <svg class="icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>
+          </button>
+        </form>
+      </div>
+      <a class="icon-button header-admin" href="#/demo-admin" aria-label="Демонстрационный редактор">
+        <svg class="icon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="1"></rect><path d="M4 9h16M8 13h3M8 16h6"></path></svg>
+        <span>Демо-панель</span>
+      </a>
+      <button class="icon-button menu-toggle" type="button" data-action="toggle-menu" aria-expanded="false" aria-controls="mobile-navigation">
+        <svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+        <span>Меню</span>
+      </button>
+    </div>
+  </div>
+
+  <nav class="main-nav" aria-label="Основная навигация">
+    <div class="container">
+      <ul class="nav-list">
+        <li><a class="nav-link" data-nav="home" href="#/">Главная</a></li>
+        <li><a class="nav-link" data-nav="news" href="#/news">Новости</a></li>
+        <li><a class="nav-link" data-nav="duma" href="#/duma">Дума КФ</a></li>
+        <li><a class="nav-link" data-nav="legislation" href="#/legislation">Законодательство</a></li>
+        <li><a class="nav-link" data-nav="criminal-code" href="#/criminal-code">Уголовный кодекс</a></li>
+        <li><a class="nav-link" data-nav="administrative-code" href="#/administrative-code">Административный кодекс</a></li>
+        <li><a class="nav-link" data-nav="bodies" href="#/bodies">Органы власти</a></li>
+        <li><a class="nav-link" data-nav="international" href="#/international">Международные отношения</a></li>
+        <li><a class="nav-link" data-nav="about" href="#/about">О портале</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="mobile-navigation" class="mobile-panel" hidden>
+    <div class="container">
+      <form class="search-field" data-global-search role="search">
+        <label class="visually-hidden" for="mobile-search">Поиск по порталу</label>
+        <input id="mobile-search" name="q" type="search" placeholder="Поиск по порталу" autocomplete="off">
+        <button type="submit" aria-label="Найти">
+          <svg class="icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>
+        </button>
+      </form>
+      <ul class="mobile-nav-list">
+        <li><a class="mobile-nav-link" data-nav="home" href="#/">Главная</a></li>
+        <li><a class="mobile-nav-link" data-nav="news" href="#/news">Новости</a></li>
+        <li><a class="mobile-nav-link" data-nav="duma" href="#/duma">Дума КФ</a></li>
+        <li><a class="mobile-nav-link" data-nav="legislation" href="#/legislation">Законодательство</a></li>
+        <li><a class="mobile-nav-link" data-nav="criminal-code" href="#/criminal-code">Уголовный кодекс КФ</a></li>
+        <li><a class="mobile-nav-link" data-nav="administrative-code" href="#/administrative-code">Административное законодательство</a></li>
+        <li><a class="mobile-nav-link" data-nav="bodies" href="#/bodies">Органы власти</a></li>
+        <li><a class="mobile-nav-link" data-nav="international" href="#/international">Международные отношения</a></li>
+        <li><a class="mobile-nav-link" data-nav="about" href="#/about">О портале</a></li>
+        <li><a class="mobile-nav-link" href="#/demo-admin">Демонстрационный редактор</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<main id="main-content" class="site-main" tabindex="-1">
+  <div id="app"></div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <svg width="40" height="40" viewBox="0 0 64 64" role="img" aria-label="Временный знак портала" style="color:#24445f;flex:none">
+        <rect width="64" height="64" fill="currentColor"></rect>
+        <path d="M32 8 52 18v16c0 11-8.4 18.6-20 22-11.6-3.4-20-11-20-22V18L32 8Z" fill="none" stroke="#c9d5e3" stroke-width="2"></path>
+        <path d="M22 24v16M22 32h8l7-8M30 32l7 8" fill="none" stroke="#ffffff" stroke-width="2.4"></path>
+        <path d="M41 24v16" stroke="#b08d57" stroke-width="2.4"></path>
+      </svg>
+      <div>
+        <p class="footer-title">Официальный портал Комаринской Федерации</p>
+        <p class="footer-text">Единое информационное пространство для публикации новостей, нормативных актов и материалов Думы КФ.</p>
+      </div>
+    </div>
+
+    <nav class="footer-col" aria-label="Разделы портала">
+      <h2>Разделы</h2>
+      <ul>
+        <li><a href="#/news">Новости</a></li>
+        <li><a href="#/duma">Дума КФ</a></li>
+        <li><a href="#/legislation">Законодательство</a></li>
+        <li><a href="#/bodies">Органы власти</a></li>
+      </ul>
+    </nav>
+
+    <nav class="footer-col" aria-label="Правовая база">
+      <h2>Правовая база</h2>
+      <ul>
+        <li><a href="#/criminal-code">Уголовный кодекс КФ</a></li>
+        <li><a href="#/administrative-code">Административное законодательство</a></li>
+        <li><a href="#/international">Международные отношения</a></li>
+        <li><a href="#/about">О портале</a></li>
+      </ul>
+    </nav>
+
+    <div class="footer-col">
+      <h2>Сведения</h2>
+      <ul>
+        <li><a href="#/about">Принципы публикации</a></li>
+        <li><a href="#/demo-admin">Демонстрационный редактор</a></li>
+        <li><a href="#/search">Поиск по порталу</a></li>
+      </ul>
+      <p class="local-footer-note">Автономная локальная версия. Данные встроены в файл и не передаются в Supabase. <a href="#/about">Подробнее</a>.</p>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <span>© <span id="year">2026</span> Комаринская Федерация · демонстрационная версия</span>
+    <span class="footer-credit">Разработано KALTEN Technologies</span>
+  </div>
+</footer>
+
+<div id="toast" class="toast-container" aria-live="polite" aria-atomic="false"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  var NEWS_CATEGORIES = {
+    state: 'Государство',
+    government: 'Правительство',
+    duma: 'Дума',
+    legislation: 'Законодательство',
+    international: 'Международные отношения',
+    security: 'Безопасность',
+    statements: 'Официальные заявления',
+    announcements: 'Объявления'
+  };
+
+  var DOC_STATUS = {
+    draft: 'Проект',
+    in_force: 'Действует',
+    amended: 'Изменён',
+    suspended: 'Приостановлен',
+    repealed: 'Утратил силу',
+    cancelled: 'Отменён'
+  };
+
+  var DOC_TONES = {
+    draft: 'neutral',
+    in_force: 'green',
+    amended: 'amber',
+    suspended: 'amber',
+    repealed: 'red',
+    cancelled: 'red'
+  };
+
+  var BILL_STATUS = {
+    draft: 'Проект',
+    submitted: 'Внесён',
+    under_review: 'На рассмотрении',
+    voting: 'На голосовании',
+    adopted: 'Принят',
+    rejected: 'Отклонён',
+    revision: 'На доработке',
+    signed: 'Подписан',
+    published: 'Опубликован',
+    void: 'Утратил силу'
+  };
+
+  var BILL_TONES = {
+    draft: 'neutral',
+    submitted: 'navy',
+    under_review: 'navy',
+    voting: 'amber',
+    adopted: 'green',
+    rejected: 'red',
+    revision: 'amber',
+    signed: 'green',
+    published: 'green',
+    void: 'red'
+  };
+
+  var BODY_KINDS = {
+    head: 'Глава государства',
+    government: 'Правительство',
+    duma: 'Законодательный орган',
+    judicial: 'Судебные органы',
+    law_enforcement: 'Правоохранительные органы',
+    agency: 'Иные ведомства'
+  };
+
+  var INTL_KINDS = {
+    treaty: 'Договор',
+    agreement: 'Соглашение',
+    statement: 'Заявление',
+    negotiation: 'Переговоры'
+  };
+
+  var PUBLISH_STATUS = { draft: 'Черновик', published: 'Опубликован', archived: 'Архив' };
+
+  var DOC_TYPES = [
+    'Конституция КФ',
+    'Уголовный кодекс КФ',
+    'Кодекс об административных правонарушениях',
+    'Иные кодексы',
+    'Федеральные законы',
+    'Постановления Думы',
+    'Указы главы государства',
+    'Постановления правительства',
+    'Прочие нормативные акты'
+  ];
+
+  var CRIMINAL_CATEGORIES = [
+    'Преступления против личности',
+    'Преступления против собственности',
+    'Преступления против общественной безопасности',
+    'Преступления против общественного порядка',
+    'Преступления против государства',
+    'Должностные преступления',
+    'Преступления против правосудия',
+    'Иные категории'
+  ];
+
+  var ADMIN_CATEGORIES = [
+    'Правонарушения против порядка управления',
+    'Правонарушения против общественного порядка',
+    'Правонарушения в сфере безопасности',
+    'Правонарушения против собственности',
+    'Правонарушения против личности',
+    'Иные правонарушения'
+  ];
+
+  var NEWS = [
+    {
+      id: 'n1',
+      title: 'Демонстрационная публикация: как работает лента новостей',
+      summary: 'Пример карточки главной новости. Материал показывает структуру публикации и не описывает реальных событий Комаринской Федерации.',
+      body: 'Это демонстрационная публикация, встроенная в автономную версию портала.\n\nОна показывает, как выглядит карточка новости: категория, дата, автор, краткое описание и полный текст. При подключении Supabase на этом месте появятся материалы, опубликованные редактором.\n\nДемонстрационные записи не публикуются в базе данных и не являются официальными сообщениями Комаринской Федерации. Изменения, внесённые в демонстрационном редакторе, сохраняются только в памяти открытой страницы и исчезают после её перезагрузки.',
+      category: 'announcements',
+      author: 'Редакция портала (демонстрация)',
+      published_at: '2026-10-20',
+      status: 'published',
+      is_demo: true
+    },
+    {
+      id: 'n2',
+      title: 'Демонстрационная публикация: порядок размещения правовых актов',
+      summary: 'Шаблон материала о публикации нормативных актов. Показывает, как разделяются даты принятия, опубликования и вступления в силу.',
+      body: 'Этот демонстрационный материал объясняет структуру карточки правового акта.\n\nВ основной версии портала документ содержит номер, название, тип, принявший орган, дату принятия, дату опубликования, дату вступления в силу, текущую редакцию, статус и историю изменений. Даты принятия и вступления в силу указываются отдельно и не смешиваются.\n\nДемонстрационный текст не является нормой права и не устанавливает правил для Комаринской Федерации.',
+      category: 'legislation',
+      author: 'Демонстрационный материал',
+      published_at: '2026-10-16',
+      status: 'published',
+      is_demo: true
+    },
+    {
+      id: 'n3',
+      title: 'Демонстрационная повестка: структура материалов Думы',
+      summary: 'Пример новости о работе Думы КФ. В демонстрационном наборе отсутствуют реальные имена депутатов и результаты голосований.',
+      body: 'Раздел Думы КФ предназначен для законопроектов, постановлений, повесток заседаний, протоколов и результатов голосований.\n\nКаждый законопроект имеет номер, статус, инициатора, дату внесения и историю рассмотрения. Результаты голосований отображаются только в случае их официального опубликования.\n\nЭтот материал создан для проверки интерфейса. Он не описывает реального заседания и не содержит персональных данных.',
+      category: 'duma',
+      author: 'Демонстрационный материал',
+      published_at: '2026-10-12',
+      status: 'published',
+      is_demo: true
+    },
+    {
+      id: 'n4',
+      title: 'Демонстрационный шаблон официального заявления',
+      summary: 'Пример оформления материалов категории «Официальные заявления». Текст является шаблоном интерфейса.',
+      body: 'Официальные заявления публикуются с указанием органа или автора, даты и категории. В основной версии такие материалы проходят через административную панель и сохраняются в Supabase.\n\nДанный шаблон помогает проверить типографику длинных сообщений, отображение метаданных и мобильную вёрстку.\n\nТекст не является официальной позицией Комаринской Федерации.',
+      category: 'statements',
+      author: 'Демонстрационный материал',
+      published_at: '2026-10-05',
+      status: 'published',
+      is_demo: true
+    },
+    {
+      id: 'n5',
+      title: 'Раздел международных отношений: структура карточек',
+      summary: 'Как будут выглядеть договоры, соглашения, заявления и материалы переговоров с другими государствами RP-проекта.',
+      body: 'Раздел международных отношений содержит карточки договоров, соглашений, заявлений и переговоров.\n\nВ каждой карточке предусмотрены тип материала, государство-партнёр, дата, статус и полный текст. Демонстрационные записи помечаются и не отражают реальных дипломатических решений.\n\nПосле подключения базы данных материалы будут публиковаться только после проверки и утверждения.',
+      category: 'international',
+      author: 'Демонстрационный материал',
+      published_at: '2026-09-28',
+      status: 'published',
+      is_demo: true
+    },
+    {
+      id: 'n6',
+      title: 'Демонстрационный материал: требования к публикациям',
+      summary: 'Шаблон новости о принципах публикации: статусы, даты, маркировка демонстрационных данных и разделение черновиков.',
+      body: 'Портал различает черновики, опубликованные материалы и архив. Публичная лента показывает только опубликованные записи.\n\nМатериалы, созданные для проверки интерфейса, помечаются как демонстрационные. Их нельзя считать официальными документами или сообщениями государственных органов.\n\nВсе изменения в основной версии фиксируются на уровне базы данных с учётом роли пользователя.',
+      category: 'state',
+      author: 'Демонстрационный материал',
+      published_at: '2026-09-18',
+      status: 'published',
+      is_demo: true
+    },
+    {
+      id: 'n7',
+      title: 'Шаблон новости о заседании Правительства',
+      summary: 'Пример карточки для материалов правительства. Реальное событие не описывается, имена должностных лиц не указаны.',
+      body: 'Карточка этой категории предназначена для сообщений о заседаниях, решениях и официальных позициях Правительства КФ.\n\nВ демонстрационной версии текст описывает только структуру будущей публикации. Персональные данные должностных лиц не публикуются без официального подтверждения.\n\nПри наполнении основной версии материал будет заменён реальной публикацией оператора портала.',
+      category: 'government',
+      author: 'Демонстрационный материал',
+      published_at: '2026-08-30',
+      status: 'published',
+      is_demo: true
+    },
+    {
+      id: 'n8',
+      title: 'Демонстрационный материал: раздел безопасности',
+      summary: 'Пример архивной публикации о структуре раздела безопасности. Материал не содержит оперативных сведений.',
+      body: 'Раздел безопасности предназначен для официальных сообщений, которые допущены к публикации оператором портала.\n\nДемонстрационная запись показывает, как архивные материалы отображаются в ленте и на странице публикации. Она не содержит оперативной информации и не описывает реальных событий.\n\nДоступ к служебным сведениям не предоставляется через публичный портал.',
+      category: 'security',
+      author: 'Демонстрационный материал',
+      published_at: '2026-07-14',
+      status: 'published',
+      is_demo: true
+    }
+  ];
+
+  var LAWS = [
+    {
+      id: 'd1',
+      doc_number: 'ДЕМО-К-01',
+      title: 'Шаблон карточки: Конституция КФ',
+      doc_type: 'Конституция КФ',
+      category: 'Конституция КФ',
+      authority: 'Демонстрационный набор',
+      adopted_on: null,
+      published_on: null,
+      effective_on: null,
+      revision: '—',
+      status: 'draft',
+      summary: 'Место для основного документа государства. Текст Конституции не включён в демонстрационный набор.',
+      body: 'Текст Конституции Комаринской Федерации будет размещён после утверждения и передачи оператору портала.\n\nВ карточке предусмотрены номер, принявший орган, дата принятия, дата опубликования, дата вступления в силу, текущая редакция, статус, полный текст и история изменений.\n\nДемонстрационная запись не содержит норм права.',
+      related_numbers: [],
+      history: [],
+      is_demo: true
+    },
+    {
+      id: 'd2',
+      doc_number: 'ДЕМО-УК-01',
+      title: 'Шаблон карточки: Уголовный кодекс КФ',
+      doc_type: 'Уголовный кодекс КФ',
+      category: 'Уголовный кодекс КФ',
+      authority: 'Демонстрационный набор',
+      adopted_on: null,
+      published_on: null,
+      effective_on: null,
+      revision: '—',
+      status: 'draft',
+      summary: 'Структура раздела уголовного законодательства. Конкретные составы и санкции требуют согласования.',
+      body: 'Демонстрационная карточка показывает структуру кодекса: категории, статьи, части, описания составов, санкции, примечания, связанные статьи и историю редакций.\n\nИтоговые сроки наказаний и размеры штрафов не устанавливаются без согласования. В локальном наборе санкции не указаны.\n\nЭтот материал не является официально принятым кодексом.',
+      related_numbers: [],
+      history: [],
+      is_demo: true
+    },
+    {
+      id: 'd3',
+      doc_number: 'ДЕМО-ПД-07',
+      title: 'Демонстрационное постановление о регламенте портала',
+      doc_type: 'Постановления Думы',
+      category: 'Постановления Думы',
+      authority: 'Дума КФ (демонстрация)',
+      adopted_on: '2026-09-15',
+      published_on: '2026-09-18',
+      effective_on: '2026-10-01',
+      revision: 'Редакция 1 (демонстрационная)',
+      status: 'in_force',
+      summary: 'Пример карточки постановления с раздельными датами принятия, опубликования и вступления в силу.',
+      body: 'Это демонстрационный документ. Он не устанавливает обязательных правил и не является официальным постановлением Думы КФ.\n\nКарточка показывает, как в основной версии оформляются нормативные акты: тип, номер, принявший орган, дата принятия, дата опубликования, дата вступления в силу, редакция и статус.\n\nСвязанные документы и история изменений заполняются оператором портала.',
+      related_numbers: ['ДЕМО-ФЗ-12', 'ДЕМО-ПП-05'],
+      history: [
+        { date: '2026-09-15', note: 'Демонстрационный документ добавлен в локальный набор.' },
+        { date: '2026-09-18', note: 'Показана публикация в правовой базе (демонстрация).' },
+        { date: '2026-10-01', note: 'Указана демонстрационная дата вступления в силу.' }
+      ],
+      is_demo: true
+    },
+    {
+      id: 'd4',
+      doc_number: 'ДЕМО-У-03',
+      title: 'Демонстрационный указ о порядке опубликования',
+      doc_type: 'Указы главы государства',
+      category: 'Указы главы государства',
+      authority: 'Глава государства (демонстрация)',
+      adopted_on: '2026-08-22',
+      published_on: '2026-08-25',
+      effective_on: '2026-09-05',
+      revision: 'Редакция 1 (демонстрационная)',
+      status: 'suspended',
+      summary: 'Шаблон указа. Статус «Приостановлен» показан исключительно для проверки интерфейса.',
+      body: 'Демонстрационный материал. Не является указом главы государства и не создаёт правовых последствий.\n\nКарточка предназначена для проверки отображения статусов, связанных документов и истории редакций.\n\nРеальные указы публикуются только после официального принятия и передачи оператору портала.',
+      related_numbers: ['ДЕМО-ПД-07'],
+      history: [
+        { date: '2026-08-22', note: 'Добавлен демонстрационный шаблон.' }
+      ],
+      is_demo: true
+    },
+    {
+      id: 'd5',
+      doc_number: 'ДЕМО-ФЗ-12',
+      title: 'Демонстрационный федеральный закон: изменения в публикации',
+      doc_type: 'Федеральные законы',
+      category: 'Федеральные законы',
+      authority: 'Дума КФ (демонстрация)',
+      adopted_on: '2026-07-10',
+      published_on: '2026-07-15',
+      effective_on: '2026-08-01',
+      revision: 'Редакция 2 (демонстрационная)',
+      status: 'amended',
+      summary: 'Пример документа со статусом «Изменён» и историей редакций. Нормы права не устанавливаются.',
+      body: 'Это демонстрационный федеральный закон. Любые совпадения с реальными документами отсутствуют.\n\nРаздел «История изменений» показывает, как в основной версии фиксируются редакции. Для каждой записи указываются дата и краткое описание изменения.\n\nТекст не является официальным опубликованным законом Комаринской Федерации.',
+      related_numbers: ['ДЕМО-ПД-07'],
+      history: [
+        { date: '2026-07-15', note: 'Первая демонстрационная редакция.' },
+        { date: '2026-09-01', note: 'Вторая демонстрационная редакция.' }
+      ],
+      is_demo: true
+    },
+    {
+      id: 'd6',
+      doc_number: 'ДЕМО-ПП-05',
+      title: 'Демонстрационное постановление правительства (архив)',
+      doc_type: 'Постановления правительства',
+      category: 'Постановления правительства',
+      authority: 'Правительство КФ (демонстрация)',
+      adopted_on: '2026-05-14',
+      published_on: '2026-05-18',
+      effective_on: '2026-06-01',
+      revision: 'Редакция 1 (демонстрационная)',
+      status: 'repealed',
+      summary: 'Архивная демонстрационная запись со статусом «Утратил силу». Используется для проверки отображения архива.',
+      body: 'Демонстрационный архивный документ. Не является официальным постановлением правительства.\n\nСтатус «Утратил силу» показывает, как в правовой базе отображаются недействующие документы. Дата принятия, опубликования и вступления в силу указаны раздельно.\n\nТекст носит исключительно технический характер.',
+      related_numbers: [],
+      history: [
+        { date: '2026-05-18', note: 'Демонстрационная публикация.' },
+        { date: '2026-09-01', note: 'Демонстрационный статус изменён на «Утратил силу».' }
+      ],
+      is_demo: true
+    }
+  ];
+
+  var CRIMINAL = [
+    {
+      id: 'c1', article_number: '1.1', title: 'Пример структуры статьи: преступления против личности',
+      part: '', category: 'Преступления против личности',
+      description: 'Демонстрационный текст показывает, где будет размещено описание состава преступления. Конкретная формулировка требует согласования и утверждения.',
+      sanction: null,
+      notes: 'Санкция не устанавливается в демонстрационном наборе. Итоговые сроки наказаний и размеры штрафов требуют отдельного согласования.',
+      related: [], status: 'draft', effective_on: null, is_demo: true,
+      history: [{ date: '2026-10-01', note: 'Добавлен шаблон статьи в локальный демонстрационный набор.' }]
+    },
+    {
+      id: 'c2', article_number: '2.1', title: 'Пример структуры статьи: преступления против собственности',
+      part: '', category: 'Преступления против собственности',
+      description: 'Демонстрационное описание места для состава преступления против собственности. Не является нормой права.',
+      sanction: null,
+      notes: 'Санкция будет опубликована после согласования.',
+      related: [], status: 'draft', effective_on: null, is_demo: true, history: []
+    },
+    {
+      id: 'c3', article_number: '3.1', title: 'Пример структуры статьи: общественная безопасность',
+      part: '', category: 'Преступления против общественной безопасности',
+      description: 'Шаблон статьи для категории «Преступления против общественной безопасности».',
+      sanction: null, notes: '', related: [], status: 'draft', effective_on: null, is_demo: true, history: []
+    },
+    {
+      id: 'c4', article_number: '4.1', title: 'Пример структуры статьи: общественный порядок',
+      part: '', category: 'Преступления против общественного порядка',
+      description: 'Шаблон статьи для категории «Преступления против общественного порядка».',
+      sanction: null, notes: '', related: [], status: 'draft', effective_on: null, is_demo: true, history: []
+    },
+    {
+      id: 'c5', article_number: '5.1', title: 'Пример структуры статьи: преступления против государства',
+      part: '', category: 'Преступления против государства',
+      description: 'Шаблон статьи для категории «Преступления против государства».',
+      sanction: null, notes: '', related: [], status: 'draft', effective_on: null, is_demo: true, history: []
+    },
+    {
+      id: 'c6', article_number: '6.1', title: 'Пример структуры статьи: должностные преступления',
+      part: '', category: 'Должностные преступления',
+      description: 'Шаблон статьи для категории «Должностные преступления».',
+      sanction: null, notes: '', related: [], status: 'draft', effective_on: null, is_demo: true, history: []
+    },
+    {
+      id: 'c7', article_number: '7.1', title: 'Пример структуры статьи: преступления против правосудия',
+      part: '', category: 'Преступления против правосудия',
+      description: 'Шаблон статьи для категории «Преступления против правосудия».',
+      sanction: null, notes: '', related: [], status: 'draft', effective_on: null, is_demo: true, history: []
+    }
+  ];
+
+  var ADMIN_ARTICLES = [
+    {
+      id: 'a1', article_number: '1.1', title: 'Пример структуры: правонарушения против порядка управления',
+      part: '', category: 'Правонарушения против порядка управления',
+      description: 'Демонстрационный шаблон описания состава административного правонарушения.',
+      sanction: null, notes: 'Санкция не установлена в демонстрационной версии.',
+      related: [], status: 'draft', effective_on: null, is_demo: true,
+      history: [{ date: '2026-10-02', note: 'Добавлен шаблон статьи в локальный набор.' }]
+    },
+    {
+      id: 'a2', article_number: '2.1', title: 'Пример структуры: общественный порядок',
+      part: '', category: 'Правонарушения против общественного порядка',
+      description: 'Шаблон для состава нарушения общественного порядка.',
+      sanction: null, notes: '', related: [], status: 'draft', effective_on: null, is_demo: true, history: []
+    },
+    {
+      id: 'a3', article_number: '3.1', title: 'Пример структуры: безопасность',
+      part: '', category: 'Правонарушения в сфере безопасности',
+      description: 'Шаблон для состава правонарушения в сфере безопасности.',
+      sanction: null, notes: '', related: [], status: 'draft', effective_on: null, is_demo: true, history: []
+    },
+    {
+      id: 'a4', article_number: '4.1', title: 'Пример структуры: собственность',
+      part: '', category: 'Правонарушения против собственности',
+      description: 'Шаблон для состава правонарушения против собственности.',
+      sanction: null, notes: '', related: [], status: 'draft', effective_on: null, is_demo: true, history: []
+    }
+  ];
+
+  var BILLS = [
+    {
+      id: 'b1', number: 'ДЕМО-ЗП-01',
+      title: 'Демонстрационный законопроект: регламент публикации материалов портала',
+      summary: 'Пример законопроекта на стадии рассмотрения. Текст не является официальным законопроектом.',
+      status: 'under_review', initiator: 'Дума КФ (демонстрация)', submitted_on: '2026-09-10',
+      related_law_number: null, is_demo: true,
+      events: [
+        { date: '2026-09-10', title: 'Внесён в Думу КФ', description: 'Демонстрационная запись о внесении.' },
+        { date: '2026-09-17', title: 'На рассмотрении', description: 'Демонстрационная запись о стадии рассмотрения.' }
+      ],
+      votes: []
+    },
+    {
+      id: 'b2', number: 'ДЕМО-ЗП-02',
+      title: 'Демонстрационный законопроект: порядок опубликования поправок',
+      summary: 'Пример стадии «На голосовании». Результаты голосования не публикуются.',
+      status: 'voting', initiator: 'Дума КФ (демонстрация)', submitted_on: '2026-09-24',
+      related_law_number: null, is_demo: true,
+      events: [
+        { date: '2026-09-24', title: 'Внесён в Думу КФ', description: 'Демонстрационная запись.' },
+        { date: '2026-10-02', title: 'Вынесен на голосование', description: 'Демонстрационная запись. Итоги не публикуются.' }
+      ],
+      votes: []
+    },
+    {
+      id: 'b3', number: 'ДЕМО-ЗП-03',
+      title: 'Демонстрационный законопроект: структура электронной правовой базы',
+      summary: 'Пример принятого законопроекта и связи с итоговым документом. Все записи демонстрационные.',
+      status: 'adopted', initiator: 'Дума КФ (демонстрация)', submitted_on: '2026-08-05',
+      related_law_number: 'ДЕМО-ПД-07', is_demo: true,
+      events: [
+        { date: '2026-08-05', title: 'Внесён в Думу КФ', description: 'Демонстрационная запись.' },
+        { date: '2026-08-20', title: 'Принят', description: 'Демонстрационная запись о принятии.' }
+      ],
+      votes: []
+    },
+    {
+      id: 'b4', number: 'ДЕМО-ЗП-04',
+      title: 'Демонстрационный законопроект: архивный пример отклонённой инициативы',
+      summary: 'Пример статуса «Отклонён» для проверки интерфейса. Инициатива вымышлена и не рассматривалась.',
+      status: 'rejected', initiator: 'Дума КФ (демонстрация)', submitted_on: '2026-06-12',
+      related_law_number: null, is_demo: true,
+      events: [
+        { date: '2026-06-12', title: 'Внесён в Думу КФ', description: 'Демонстрационная запись.' },
+        { date: '2026-06-30', title: 'Отклонён', description: 'Демонстрационная запись об отклонении.' }
+      ],
+      votes: []
+    }
+  ];
+
+  var AGENDA = [
+    {
+      id: 's1', number: 'ДЕМО-ПОВ-01', kind: 'agenda',
+      title: 'Демонстрационная повестка заседания Думы КФ',
+      date: '2026-10-15',
+      body: '1. Обсуждение структуры электронной правовой базы (демонстрационный пункт).\n\n2. Порядок публикации повесток и протоколов (демонстрационный пункт).\n\n3. Разное.\n\nПовестка является шаблоном и не отражает реального заседания.'
+    }
+  ];
+
+  var PROTOCOLS = [];
+
+  var BODIES = [
+    { slug: 'head-of-state', kind: 'head', name: 'Глава государства', summary: 'Сведения о полномочиях и порядке замещения должности готовятся к публикации.', description: null, structure: null, contacts: null },
+    { slug: 'government', kind: 'government', name: 'Правительство КФ', summary: 'Раздел о составе и направлениях работы правительства находится в подготовке.', description: null, structure: null, contacts: null },
+    { slug: 'duma', kind: 'duma', name: 'Дума КФ', summary: 'Законодательный орган. Материалы и статусы документов доступны в разделе «Дума КФ».', description: null, structure: null, contacts: null },
+    { slug: 'judicial', kind: 'judicial', name: 'Судебные органы', summary: 'Сведения о структуре судебной системы будут опубликованы после подтверждения.', description: null, structure: null, contacts: null },
+    { slug: 'law-enforcement', kind: 'law_enforcement', name: 'Правоохранительные органы', summary: 'Сведения о структуре и полномочиях готовятся к публикации.', description: null, structure: null, contacts: null },
+    { slug: 'agencies', kind: 'agency', name: 'Иные ведомства', summary: 'Перечень ведомств будет дополнен после официального подтверждения.', description: null, structure: null, contacts: null }
+  ];
+
+  var INTL = [
+    {
+      id: 'i1', kind: 'treaty', country: 'ЗФ (демонстрация)',
+      title: 'Демонстрационный договор о сотрудничестве',
+      signed_on: '2026-08-12', status: 'Проект, не заключён (демонстрация)',
+      summary: 'Шаблон карточки международного договора. Не отражает реальных дипломатических решений.',
+      body: 'Это демонстрационный документ. Он показывает структуру карточки договора: тип, государство-партнёр, дата, статус, краткое описание и полный текст.\n\nДоговор не заключён, правовых последствий не создаёт и не является официальной позицией Комаринской Федерации.\n\nПосле подключения базы данных материалы будут публиковаться только после проверки.',
+      is_demo: true
+    },
+    {
+      id: 'i2', kind: 'statement', country: 'Государства RP-проекта (демонстрация)',
+      title: 'Демонстрационное заявление о формате публикаций',
+      signed_on: '2026-09-03', status: 'Шаблон (демонстрация)',
+      summary: 'Пример оформления заявления. Текст не является официальным заявлением.',
+      body: 'Шаблон заявления предназначен для проверки интерфейса раздела международных отношений.\n\nВ основной версии заявления публикуются с указанием органа, даты и статуса. Демонстрационные материалы всегда помечаются.\n\nТекст не содержит реальных дипломатических решений.',
+      is_demo: true
+    },
+    {
+      id: 'i3', kind: 'negotiation', country: 'Иные государства (демонстрация)',
+      title: 'Демонстрационная карточка переговоров (архив)',
+      signed_on: '2026-06-21', status: 'Архив (демонстрация)',
+      summary: 'Архивный пример карточки переговоров. Содержание является шаблоном.',
+      body: 'Архивная демонстрационная запись показывает, как выглядят материалы переговоров в хронологическом списке.\n\nОна не описывает реальной встречи и не содержит сведений ограниченного доступа.\n\nДанные встроены в локальный HTML-файл и не передаются в Supabase.',
+      is_demo: true
+    }
+  ];
+
+  var newsStore = JSON.parse(JSON.stringify(NEWS));
+  var app = document.getElementById('app');
+  var toastBox = document.getElementById('toast');
+
+  function esc(value) {
+    return String(value === null || value === undefined ? '' : value).replace(/[&<>"']/g, function (char) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char];
+    });
+  }
+
+  function fmt(value) {
+    if (!value) return '—';
+    var date = new Date(String(value) + 'T00:00:00');
+    if (isNaN(date.getTime())) return '—';
+    return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  function todayIso() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  function paragraphs(text) {
+    if (!text || !String(text).trim()) {
+      return '<p class="muted">Полный текст не опубликован.</p>';
+    }
+    return '<div class="prose">' + String(text).split(/\n{2,}/).filter(Boolean).map(function (block) {
+      return '<p>' + esc(block).replace(/\n/g, '<br>') + '</p>';
+    }).join('') + '</div>';
+  }
+
+  function badge(label, tone) {
+    return '<span class="badge badge-' + (tone || 'neutral') + '">' + esc(label) + '</span>';
+  }
+
+  function demoBadge(isDemo, full) {
+    if (!isDemo) return '';
+    return '<span class="badge badge-gold">' + (full ? 'Демонстрационный материал' : 'Демо') + '</span>';
+  }
+
+  function docStatusBadge(status) {
+    return badge(DOC_STATUS[status] || status, DOC_TONES[status] || 'neutral');
+  }
+
+  function billStatusBadge(status) {
+    return badge(BILL_STATUS[status] || status, BILL_TONES[status] || 'neutral');
+  }
+
+  function notice(tone, title, text) {
+    return '<div class="notice notice-' + tone + '" role="' + (tone === 'error' ? 'alert' : 'note') + '">' +
+      (title ? '<div class="notice-title">' + esc(title) + '</div>' : '') +
+      '<div class="notice-text">' + text + '</div></div>';
+  }
+
+  function demoNotice() {
+    return '<div class="callout callout-demo" role="note"><strong>Демонстрационный материал.</strong> Не является официальным документом или опубликованным решением Комаринской Федерации.</div>';
+  }
+
+  function empty(title, text) {
+    return '<div class="empty-state"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 4h14v16H5z" stroke="currentColor" stroke-width="1.4"></path><path d="M8 9h8M8 13h5" stroke="currentColor" stroke-width="1.4"></path></svg>' +
+      '<p class="empty-title">' + esc(title) + '</p>' +
+      (text ? '<div class="empty-text">' + esc(text) + '</div>' : '') + '</div>';
+  }
+
+  function emptyCompact(title, text) {
+    return '<div class="empty-state empty-state-compact"><p class="empty-title">' + esc(title) + '</p>' +
+      (text ? '<div class="empty-text">' + esc(text) + '</div>' : '') + '</div>';
+  }
+
+  function crumbs(items) {
+    return '<nav class="breadcrumbs" aria-label="Навигационная цепочка"><ol><li><a href="#/">Главная</a></li>' +
+      items.map(function (item) {
+        return '<li>' + (item.href ? '<a href="' + item.href + '">' + esc(item.label) + '</a>' : '<span aria-current="page">' + esc(item.label) + '</span>') + '</li>';
+      }).join('') + '</ol></nav>';
+  }
+
+  function pageHeader(config) {
+    return '<header class="page-header"><div class="container">' +
+      (config.crumbs ? crumbs(config.crumbs) : '') +
+      '<div class="page-header-row"><div>' +
+      (config.kicker ? '<p class="kicker">' + esc(config.kicker) + '</p>' : '') +
+      '<h1 class="page-title">' + esc(config.title) + '</h1>' +
+      (config.description ? '<div class="page-description">' + esc(config.description) + '</div>' : '') +
+      '</div></div></div></header>';
+  }
+
+  function sectionHead(title, href, label) {
+    return '<div class="section-head"><h2 class="section-title">' + esc(title) + '</h2>' +
+      (href ? '<a class="section-link" href="' + href + '">' + esc(label || 'Смотреть все') + ' <span aria-hidden="true">→</span></a>' : '') +
+      '</div>';
+  }
+
+  function getParams(query) {
+    return {
+      q: (query.get('q') || '').trim(),
+      category: query.get('category') || 'all',
+      status: query.get('status') || 'all',
+      sort: query.get('sort') || 'new',
+      period: query.get('period') || 'all',
+      tab: query.get('tab') || 'bills',
+      kind: query.get('kind') || 'all'
+    };
+  }
+
+  function published() {
+    return newsStore.filter(function (post) { return post.status === 'published'; });
+  }
+
+  function byDateDesc(a, b) {
+    return String(b.published_at || '').localeCompare(String(a.published_at || ''));
+  }
+
+  function renderNewsList(items) {
+    if (!items.length) {
+      return empty('Публикации не найдены', 'По заданным условиям ничего не найдено. Измените запрос или сбросьте фильтры.');
+    }
+    return '<div class="news-grid">' + items.map(function (post) {
+      return '<article class="news-card">' +
+        '<div class="card-topline"><div class="card-badges">' +
+        badge(NEWS_CATEGORIES[post.category], 'navy') + demoBadge(post.is_demo) +
+        '</div><time datetime="' + esc(post.published_at) + '">' + fmt(post.published_at) + '</time></div>' +
+        '<h2 class="news-card-title"><a href="#/news/' + esc(post.id) + '">' + esc(post.title) + '</a></h2>' +
+        (post.summary ? '<p class="news-card-summary">' + esc(post.summary) + '</p>' : '') +
+        '<div class="card-footer"><span>' + esc(post.author || 'Официальный портал') + '</span><span aria-hidden="true">·</span><span>' + fmt(post.published_at) + '</span></div>' +
+        '<a class="card-link" href="#/news/' + esc(post.id) + '">Читать публикацию <span aria-hidden="true">→</span></a>' +
+        '</article>';
+    }).join('') + '</div>';
+  }
+
+  function newsRow(post) {
+    var date = post.published_at ? new Date(post.published_at + 'T00:00:00') : null;
+    return '<article class="news-row">' +
+      '<div class="news-row-date" aria-hidden="true"><span class="news-row-day">' + (date ? date.getDate() : '—') + '</span><span class="news-row-month">' + (date ? date.toLocaleDateString('ru-RU', { month: 'short' }) : '') + '</span></div>' +
+      '<div class="news-row-body"><div class="news-row-meta"><span>' + esc(NEWS_CATEGORIES[post.category]) + '</span>' +
+      (post.is_demo ? '<span class="demo-inline">Демо</span>' : '') + '</div>' +
+      '<h3><a href="#/news/' + esc(post.id) + '">' + esc(post.title) + '</a></h3>' +
+      (post.summary ? '<p>' + esc(post.summary) + '</p>' : '') + '</div></article>';
+  }
+
+  function billRow(bill) {
+    return '<article class="doc-row"><div class="doc-row-main"><div class="doc-row-kicker"><span>Законопроект № ' + esc(bill.number) + '</span><span class="doc-row-sep" aria-hidden="true">·</span><span>' + esc(BILL_STATUS[bill.status]) + '</span></div>' +
+      '<h3><a href="#/duma/bills/' + esc(bill.id) + '">' + esc(bill.title) + '</a></h3>' +
+      '<p>' + esc(bill.summary || 'Краткое описание не опубликовано.') + '</p></div>' +
+      '<div class="doc-row-meta"><span>' + esc(bill.initiator) + '</span><span>' + fmt(bill.submitted_on) + '</span></div></article>';
+  }
+
+  function lawRow(doc) {
+    return '<article class="doc-row"><div class="doc-row-main"><div class="doc-row-kicker"><span>' + esc(doc.doc_type) + '</span><span class="doc-row-sep" aria-hidden="true">·</span><span>№ ' + esc(doc.doc_number) + '</span></div>' +
+      '<h3><a href="#/legislation/' + esc(doc.id) + '">' + esc(doc.title) + '</a></h3>' +
+      '<p>' + esc(doc.summary || 'Краткое описание не опубликовано.') + '</p></div>' +
+      '<div class="doc-row-meta"><span>Принят: ' + fmt(doc.adopted_on) + '</span><span>Опубликован: ' + fmt(doc.published_on) + '</span></div></article>';
+  }
+
+  function quickLinks() {
+    var items = [
+      { href: '#/legislation', title: 'Правовая база', text: 'Нормативные акты, кодексы и постановления.' },
+      { href: '#/duma', title: 'Дума КФ', text: 'Законопроекты, повестки и протоколы заседаний.' },
+      { href: '#/criminal-code', title: 'Уголовный кодекс КФ', text: 'Структура кодекса и статьи.' },
+      { href: '#/bodies', title: 'Органы власти', text: 'Структура государственных органов.' },
+      { href: '#/international', title: 'Международные отношения', text: 'Договоры, соглашения и заявления.' },
+      { href: '#/about', title: 'О портале', text: 'Назначение, принципы публикации и разработчик.' }
+    ];
+    return '<div class="quick-grid">' + items.map(function (item) {
+      return '<a class="quick-card" href="' + item.href + '"><h3>' + esc(item.title) + '</h3><p>' + esc(item.text) + '</p><span class="quick-card-arrow" aria-hidden="true">→</span></a>';
+    }).join('') + '</div>';
+  }
+
+  function renderHome() {
+    var items = published().slice().sort(byDateDesc);
+    var featured = items[0];
+    var latest = items.slice(1, 5);
+    var announcements = items.filter(function (post) { return post.category === 'announcements'; }).slice(0, 3);
+
+    var html = '<section class="hero"><div class="container hero-inner">' +
+      '<div class="hero-content"><p class="hero-kicker">Официальный информационный портал</p>' +
+      '<h1 class="hero-title">Комаринская Федерация</h1>' +
+      '<p class="hero-lead">Единая точка доступа к официальным публикациям, законодательной базе, документам Думы КФ и сведениям о государственных органах.</p>' +
+      '<div class="hero-actions"><a class="btn btn-primary" href="#/legislation">Открыть правовую базу</a><a class="btn btn-secondary" href="#/news">Перейти к новостям</a></div>' +
+      '<p class="hero-note">Это автономная демонстрационная версия портала. Она открывается как локальный файл, не требует интернета и не подключается к Supabase.</p></div>' +
+      '<aside class="hero-aside" aria-label="Сведения о локальной версии">' +
+      '<div class="hero-seal-row"><svg class="hero-emblem" width="72" height="72" viewBox="0 0 64 64" role="img" aria-label="Временный знак портала"><rect width="64" height="64" fill="currentColor"></rect><path d="M32 8 52 18v16c0 11-8.4 18.6-20 22-11.6-3.4-20-11-20-22V18L32 8Z" fill="none" stroke="#c9d5e3" stroke-width="2"></path><path d="M22 24v16M22 32h8l7-8M30 32l7 8" fill="none" stroke="#ffffff" stroke-width="2.4"></path><path d="M41 24v16" stroke="#b08d57" stroke-width="2.4"></path></svg>' +
+      '<div><p class="hero-seal-label">Демонстрационный режим</p><p class="hero-seal-text">Встроенный набор данных. Официальная символика будет размещена после утверждения.</p></div></div>' +
+      '<div class="hero-divider"></div>' +
+      '<dl class="local-facts"><div><dt>Режим</dt><dd>Локальный файл</dd></div><div><dt>Сеть</dt><dd>Не требуется</dd></div><div><dt>Данные</dt><dd>Встроенный демо-набор</dd></div><div><dt>Сохранение</dt><dd>Только в памяти страницы</dd></div></dl>' +
+      '<div class="hero-disclaimer">Демонстрационные материалы не являются официальными документами или решениями Комаринской Федерации.</div>' +
+      '</aside></div></section>';
+
+    html += '<div class="container home-body">' +
+      notice('info', 'Автономная версия портала', 'Навигация, поиск, фильтры и демонстрационный редактор работают без сервера. <a href="#/about">Подробнее о различиях версий</a>.') +
+      '<div class="home-grid"><section class="home-main">' +
+      sectionHead('Главное', '#/news', 'Все новости');
+
+    if (featured) {
+      html += '<article class="featured-card"><div class="card-topline"><div class="card-badges">' + badge(NEWS_CATEGORIES[featured.category], 'navy') + demoBadge(featured.is_demo) + '</div><time datetime="' + esc(featured.published_at) + '">' + fmt(featured.published_at) + '</time></div>' +
+        '<h2 class="featured-title"><a href="#/news/' + esc(featured.id) + '">' + esc(featured.title) + '</a></h2>' +
+        '<p class="featured-summary">' + esc(featured.summary) + '</p>' +
+        '<div class="card-footer"><span>' + esc(featured.author) + '</span><span aria-hidden="true">·</span><span>' + fmt(featured.published_at) + '</span><a class="text-link" href="#/news/' + esc(featured.id) + '">Читать <span aria-hidden="true">→</span></a></div></article>';
+      if (latest.length) {
+        html += '<div class="news-rows">' + latest.map(newsRow).join('') + '</div>';
+      }
+    } else {
+      html += empty('Публикации отсутствуют', 'Опубликованные новости появятся после добавления материалов.');
+    }
+
+    html += '</section><aside class="home-aside">' +
+      '<section class="panel"><div class="panel-head"><h2>Государственные объявления</h2></div><div class="panel-body">' +
+      (announcements.length ? '<ul class="announcement-list">' + announcements.map(function (post) {
+        return '<li><time datetime="' + esc(post.published_at) + '">' + fmt(post.published_at) + '</time><a href="#/news/' + esc(post.id) + '">' + esc(post.title) + '</a></li>';
+      }).join('') + '</ul>' : emptyCompact('Объявления не опубликованы', 'Раздел заполняется по мере публикации объявлений.')) +
+      '</div></section>' +
+      '<section class="panel panel-muted"><div class="panel-head"><h2>Быстрый доступ</h2></div><div class="panel-body"><ul class="quick-list">' +
+      '<li><a href="#/legislation"><span>Правовая база</span><span aria-hidden="true">→</span></a></li>' +
+      '<li><a href="#/duma"><span>Дума КФ</span><span aria-hidden="true">→</span></a></li>' +
+      '<li><a href="#/criminal-code"><span>Уголовный кодекс</span><span aria-hidden="true">→</span></a></li>' +
+      '<li><a href="#/demo-admin"><span>Демо-редактор</span><span aria-hidden="true">→</span></a></li>' +
+      '</ul></div></section></aside></div>';
+
+    html += '<section class="section">' + sectionHead('Последние документы Думы', '#/duma', 'Раздел Думы') +
+      (BILLS.length ? '<div class="doc-list">' + BILLS.slice(0, 3).map(billRow).join('') + '</div>' : empty('Документы Думы не опубликованы')) + '</section>';
+
+    html += '<section class="section">' + sectionHead('Недавно опубликованные законы', '#/legislation', 'Правовая база') +
+      (LAWS.length ? '<div class="doc-list">' + LAWS.slice(0, 3).map(lawRow).join('') + '</div>' : empty('Нормативные акты не опубликованы')) + '</section>';
+
+    html += '<section class="section section-last">' + sectionHead('Важные разделы') + quickLinks() + '</section></div>';
+    return { title: 'Главная', html: html };
+  }
+
+  function renderNews(query) {
+    var p = getParams(query);
+    var items = published().slice();
+
+    if (p.q) {
+      var term = p.q.toLowerCase();
+      items = items.filter(function (post) {
+        return [post.title, post.summary, post.body].join(' ').toLowerCase().indexOf(term) !== -1;
+      });
+    }
+    if (p.category !== 'all') {
+      items = items.filter(function (post) { return post.category === p.category; });
+    }
+    if (p.period === '2026-10') items = items.filter(function (post) { return post.published_at.indexOf('2026-10') === 0; });
+    if (p.period === '2026-09') items = items.filter(function (post) { return post.published_at.indexOf('2026-09') === 0; });
+    if (p.period === 'archive') items = items.filter(function (post) { return post.published_at < '2026-09-01'; });
+
+    items.sort(p.sort === 'old' ? function (a, b) { return String(a.published_at).localeCompare(String(b.published_at)); } : byDateDesc);
+
+    var categoryOptions = Object.keys(NEWS_CATEGORIES).map(function (key) {
+      return '<option value="' + key + '"' + (p.category === key ? ' selected' : '') + '>' + esc(NEWS_CATEGORIES[key]) + '</option>';
+    }).join('');
+
+    var html = pageHeader({
+      kicker: 'Публикации',
+      title: 'Новости',
+      description: 'Официальные сообщения, заявления и объявления. Поиск и фильтрация выполняются по встроенному демонстрационному набору.',
+      crumbs: [{ label: 'Новости' }]
+    });
+
+    html += '<div class="container page-body">' +
+      notice('info', 'Демонстрационная лента', 'Все публикации в этой версии являются примерами интерфейса и не описывают реальных событий Комаринской Федерации.') +
+      '<form class="filter-bar" id="news-filter-form" data-filter-base="/news" role="search"><div class="filter-grid">' +
+      '<div class="field field-grow"><label for="news-search">Поиск по публикациям</label><input class="input" id="news-search" type="search" name="q" value="' + esc(p.q) + '" placeholder="Заголовок, описание или текст"></div>' +
+      '<div class="field"><label for="news-category">Категория</label><select class="select" id="news-category" name="category" data-autosubmit><option value="all">Все категории</option>' + categoryOptions + '</select></div>' +
+      '<div class="field"><label for="news-period">Период</label><select class="select" id="news-period" name="period" data-autosubmit>' +
+      '<option value="all"' + (p.period === 'all' ? ' selected' : '') + '>Все материалы</option>' +
+      '<option value="2026-10"' + (p.period === '2026-10' ? ' selected' : '') + '>Октябрь 2026</option>' +
+      '<option value="2026-09"' + (p.period === '2026-09' ? ' selected' : '') + '>Сентябрь 2026</option>' +
+      '<option value="archive"' + (p.period === 'archive' ? ' selected' : '') + '>Архив (до сентября 2026)</option></select></div>' +
+      '<div class="field"><label for="news-sort">Сортировка</label><select class="select" id="news-sort" name="sort" data-autosubmit>' +
+      '<option value="new"' + (p.sort !== 'old' ? ' selected' : '') + '>Сначала новые</option>' +
+      '<option value="old"' + (p.sort === 'old' ? ' selected' : '') + '>Сначала старые</option></select></div>' +
+      '<div class="filter-actions"><button class="btn btn-primary" type="submit">Применить</button><a class="btn btn-ghost" href="#/news">Сбросить</a></div>' +
+      '</div></form>';
+
+    html += '<div class="results-meta"><span>Найдено публикаций: ' + items.length + '</span>' + (p.q ? '<span>Запрос: «' + esc(p.q) + '»</span>' : '') + '</div>';
+    html += renderNewsList(items);
+
+    var archive = published().slice().sort(byDateDesc).slice(-4);
+    if (archive.length) {
+      html += '<div class="archive-list" aria-label="Архив публикаций"><p class="kicker" style="margin:24px 0 0">Архив</p>' +
+        archive.map(function (post) {
+          return '<a href="#/news/' + esc(post.id) + '"><span>' + esc(post.title) + '</span><time datetime="' + esc(post.published_at) + '">' + fmt(post.published_at) + '</time></a>';
+        }).join('') + '</div>';
+    }
+
+    html += '<p class="page-note">Дата публикации указывается в карточке материала. Черновики не отображаются в публичной ленте.</p></div>';
+    return { title: 'Новости', html: html };
+  }
+
+  function renderNewsDetail(id) {
+    var post = newsStore.find(function (item) { return item.id === id && item.status === 'published'; });
+    if (!post) {
+      return { title: 'Публикация не найдена', html: notFoundPage('Публикация не найдена', 'Материал отсутствует или ещё не опубликован.') };
+    }
+    var html = '<div class="container page-body article-page">' +
+      crumbs([{ label: 'Новости', href: '#/news' }, { label: post.title }]) +
+      '<article><header class="article-header"><div class="card-badges">' + badge(NEWS_CATEGORIES[post.category], 'navy') + demoBadge(post.is_demo, true) + '</div>' +
+      '<h1 class="article-title">' + esc(post.title) + '</h1>' +
+      (post.summary ? '<p class="article-summary">' + esc(post.summary) + '</p>' : '') +
+      '<div class="article-meta"><span>' + fmt(post.published_at) + '</span><span aria-hidden="true">·</span><span>' + esc(post.author || 'Официальный портал') + '</span></div></header>' +
+      (post.is_demo ? demoNotice() : '') +
+      '<div class="article-layout"><div class="article-body">' + paragraphs(post.body) + '</div>' +
+      '<aside class="article-aside"><div class="meta-card"><h2>Сведения о публикации</h2><dl class="meta-list">' +
+      '<div><dt>Категория</dt><dd>' + esc(NEWS_CATEGORIES[post.category]) + '</dd></div>' +
+      '<div><dt>Дата публикации</dt><dd>' + fmt(post.published_at) + '</dd></div>' +
+      '<div><dt>Источник</dt><dd>' + esc(post.author || 'Официальный портал') + '</dd></div>' +
+      '<div><dt>Статус</dt><dd>' + esc(PUBLISH_STATUS[post.status]) + '</dd></div>' +
+      '</dl></div><a class="btn btn-secondary btn-block" href="#/news">Все новости</a></aside></div></article></div>';
+    return { title: post.title, html: html };
+  }
+
+  function renderDuma(query) {
+    var p = getParams(query);
+    var tab = ['bills', 'agenda', 'protocols'].indexOf(p.tab) !== -1 ? p.tab : 'bills';
+    var html = pageHeader({
+      kicker: 'Законодательная власть',
+      title: 'Дума КФ',
+      description: 'Законопроекты, повестки заседаний и протоколы. Статусы отражают стадии рассмотрения в демонстрационном наборе.',
+      crumbs: [{ label: 'Дума КФ' }]
+    });
+    html += '<div class="container page-body">' +
+      notice('info', 'Демонстрационный раздел', 'В наборе нет реальных имён депутатов и результатов голосований. Все документы являются шаблонами.') +
+      '<div class="tabs" role="tablist" aria-label="Материалы Думы">' +
+      '<a class="tab' + (tab === 'bills' ? ' active' : '') + '" role="tab" aria-selected="' + (tab === 'bills') + '" href="#/duma?tab=bills">Законопроекты</a>' +
+      '<a class="tab' + (tab === 'agenda' ? ' active' : '') + '" role="tab" aria-selected="' + (tab === 'agenda') + '" href="#/duma?tab=agenda">Повестки заседаний</a>' +
+      '<a class="tab' + (tab === 'protocols' ? ' active' : '') + '" role="tab" aria-selected="' + (tab === 'protocols') + '" href="#/duma?tab=protocols">Протоколы</a>' +
+      '</div>';
+
+    if (tab === 'bills') {
+      var bills = BILLS.slice();
+      if (p.q) {
+        var term = p.q.toLowerCase();
+        bills = bills.filter(function (bill) { return [bill.number, bill.title, bill.summary].join(' ').toLowerCase().indexOf(term) !== -1; });
+      }
+      if (p.status !== 'all') bills = bills.filter(function (bill) { return bill.status === p.status; });
+      var statusOptions = Object.keys(BILL_STATUS).map(function (key) {
+        return '<option value="' + key + '"' + (p.status === key ? ' selected' : '') + '>' + esc(BILL_STATUS[key]) + '</option>';
+      }).join('');
+      html += '<form class="filter-bar filter-bar-inline" data-filter-base="/duma" role="search"><input type="hidden" name="tab" value="bills"><div class="filter-grid">' +
+        '<div class="field field-grow"><label for="bill-search">Поиск по законопроектам</label><input class="input" id="bill-search" type="search" name="q" value="' + esc(p.q) + '" placeholder="Номер, название или описание"></div>' +
+        '<div class="field"><label for="bill-status">Статус</label><select class="select" id="bill-status" name="status" data-autosubmit><option value="all">Все статусы</option>' + statusOptions + '</select></div>' +
+        '<div class="filter-actions"><button class="btn btn-primary" type="submit">Применить</button></div></div></form>';
+      html += bills.length ? '<div class="bill-list">' + bills.map(function (bill) {
+        var events = bill.events || [];
+        return '<article class="bill-card"><div class="bill-card-head"><span class="doc-number">№ ' + esc(bill.number) + '</span>' + billStatusBadge(bill.status) + demoBadge(bill.is_demo) + '</div>' +
+          '<h2><a href="#/duma/bills/' + esc(bill.id) + '">' + esc(bill.title) + '</a></h2>' +
+          (bill.summary ? '<p>' + esc(bill.summary) + '</p>' : '') +
+          '<div class="card-footer"><span>Инициатор: ' + esc(bill.initiator) + '</span><span aria-hidden="true">·</span><span>Внесён: ' + fmt(bill.submitted_on) + '</span><span aria-hidden="true">·</span><span>Событий: ' + events.length + '</span></div></article>';
+      }).join('') + '</div>' : empty('Законопроекты не найдены', 'По заданным условиям ничего не найдено.');
+    } else if (tab === 'agenda') {
+      html += AGENDA.length ? '<div class="session-list">' + AGENDA.map(function (session) {
+        return '<details class="session-item"><summary><span class="doc-number">№ ' + esc(session.number) + '</span><span class="session-title">' + esc(session.title) + '</span><span class="session-date">' + fmt(session.date) + '</span></summary><div class="session-body">' + paragraphs(session.body) + '</div></details>';
+      }).join('') + '</div>' : empty('Повестки не опубликованы');
+    } else {
+      html += PROTOCOLS.length ? '<div class="session-list">' + PROTOCOLS.map(function (session) {
+        return '<details class="session-item"><summary><span class="doc-number">№ ' + esc(session.number) + '</span><span class="session-title">' + esc(session.title) + '</span><span class="session-date">' + fmt(session.date) + '</span></summary><div class="session-body">' + paragraphs(session.body) + '</div></details>';
+      }).join('') + '</div>' : empty('Протоколы не опубликованы', 'Материалы заседаний появятся после их опубликования. В демонстрационном наборе протоколы намеренно отсутствуют.');
+    }
+
+    html += '<p class="page-note">Результаты голосований публикуются только после официального опубликования. Персональные данные должностных лиц не размещаются без подтверждения.</p></div>';
+    return { title: 'Дума КФ', html: html };
+  }
+
+  function renderBill(id) {
+    var bill = BILLS.find(function (item) { return item.id === id; });
+    if (!bill) {
+      return { title: 'Законопроект не найден', html: notFoundPage('Законопроект не найден', 'Материал отсутствует в демонстрационном наборе.') };
+    }
+    var events = bill.events || [];
+    var html = '<div class="container page-body">' +
+      crumbs([{ label: 'Дума КФ', href: '#/duma' }, { label: 'Законопроект № ' + bill.number }]) +
+      '<article><header class="article-header"><div class="card-badges">' + badge('Законопроект № ' + bill.number, 'navy') + billStatusBadge(bill.status) + demoBadge(bill.is_demo, true) + '</div>' +
+      '<h1 class="article-title">' + esc(bill.title) + '</h1>' +
+      (bill.summary ? '<p class="article-summary">' + esc(bill.summary) + '</p>' : '') +
+      '<div class="article-meta"><span>Инициатор: ' + esc(bill.initiator) + '</span><span aria-hidden="true">·</span><span>Внесён: ' + fmt(bill.submitted_on) + '</span></div></header>' +
+      (bill.is_demo ? demoNotice() : '') +
+      '<div class="article-layout"><div class="article-body">' +
+      '<section class="content-section"><h2>История рассмотрения</h2>' +
+      (events.length ? '<ol class="timeline">' + events.map(function (event) {
+        return '<li><time datetime="' + esc(event.date) + '">' + fmt(event.date) + '</time><div><h3>' + esc(event.title) + '</h3>' + (event.description ? '<p>' + esc(event.description) + '</p>' : '') + '</div></li>';
+      }).join('') + '</ol>' : emptyCompact('История рассмотрения не опубликована')) + '</section>' +
+      '<section class="content-section"><h2>Результаты голосования</h2>' + emptyCompact('Результаты голосования не опубликованы', 'В демонстрационном наборе итоги голосований не указываются.') + '</section>' +
+      '<section class="content-section"><h2>Связанные документы</h2>' +
+      (bill.related_law_number ? '<p>Итоговый закон: <a href="#/legislation?q=' + encodeURIComponent(bill.related_law_number) + '">№ ' + esc(bill.related_law_number) + '</a></p>' : '<p class="muted">Связанный закон пока не указан.</p>') +
+      '</section><section class="content-section"><h2>Текст законопроекта</h2>' + emptyCompact('Полный текст не опубликован', 'В демонстрационной модели текст законопроекта не приводится.') + '</section>' +
+      '</div><aside class="article-aside"><div class="meta-card"><h2>Паспорт законопроекта</h2><dl class="meta-list">' +
+      '<div><dt>Номер</dt><dd>' + esc(bill.number) + '</dd></div>' +
+      '<div><dt>Статус</dt><dd>' + esc(BILL_STATUS[bill.status]) + '</dd></div>' +
+      '<div><dt>Инициатор</dt><dd>' + esc(bill.initiator) + '</dd></div>' +
+      '<div><dt>Дата внесения</dt><dd>' + fmt(bill.submitted_on) + '</dd></div></dl></div>' +
+      '<a class="btn btn-secondary btn-block" href="#/duma">Все законопроекты</a></aside></div></article></div>';
+    return { title: bill.title, html: html };
+  }
+
+  function renderLegislation(query) {
+    var p = getParams(query);
+    var docs = LAWS.slice();
+    if (p.q) {
+      var term = p.q.toLowerCase();
+      docs = docs.filter(function (doc) { return [doc.doc_number, doc.title, doc.summary, doc.body].join(' ').toLowerCase().indexOf(term) !== -1; });
+    }
+    if (p.category !== 'all') docs = docs.filter(function (doc) { return doc.category === p.category; });
+    if (p.status !== 'all') docs = docs.filter(function (doc) { return doc.status === p.status; });
+    docs.sort(p.sort === 'old' ? function (a, b) { return String(a.adopted_on || '').localeCompare(String(b.adopted_on || '')); } : function (a, b) { return String(b.adopted_on || '').localeCompare(String(a.adopted_on || '')); });
+
+    var categoryOptions = DOC_TYPES.map(function (type) {
+      return '<option value="' + esc(type) + '"' + (p.category === type ? ' selected' : '') + '>' + esc(type) + '</option>';
+    }).join('');
+    var statusOptions = Object.keys(DOC_STATUS).map(function (key) {
+      return '<option value="' + key + '"' + (p.status === key ? ' selected' : '') + '>' + esc(DOC_STATUS[key]) + '</option>';
+    }).join('');
+
+    var html = pageHeader({
+      kicker: 'Электронная правовая база',
+      title: 'Законодательство КФ',
+      description: 'Конституция, кодексы, федеральные законы, постановления и указы. Поиск выполняется по номеру, названию и тексту документа.',
+      crumbs: [{ label: 'Законодательство' }]
+    });
+    html += '<div class="container page-body">' +
+      notice('info', 'Демонстрационный набор документов', 'Документы в локальной версии не являются официальными нормативными актами и не устанавливают норм права.') +
+      '<form class="filter-bar" id="laws-filter-form" data-filter-base="/legislation" role="search"><div class="filter-grid filter-grid-docs">' +
+      '<div class="field field-grow"><label for="law-search">Поиск по документам</label><input class="input" id="law-search" type="search" name="q" value="' + esc(p.q) + '" placeholder="Номер, название или содержание"></div>' +
+      '<div class="field"><label for="law-category">Категория</label><select class="select" id="law-category" name="category" data-autosubmit><option value="all">Все категории</option>' + categoryOptions + '</select></div>' +
+      '<div class="field"><label for="law-status">Статус</label><select class="select" id="law-status" name="status" data-autosubmit><option value="all">Все статусы</option>' + statusOptions + '</select></div>' +
+      '<div class="field"><label for="law-sort">Сортировка</label><select class="select" id="law-sort" name="sort" data-autosubmit><option value="new"' + (p.sort !== 'old' ? ' selected' : '') + '>Сначала новые</option><option value="old"' + (p.sort === 'old' ? ' selected' : '') + '>Сначала старые</option></select></div>' +
+      '<div class="filter-actions"><button class="btn btn-primary" type="submit">Применить</button><a class="btn btn-ghost" href="#/legislation">Сбросить</a></div>' +
+      '</div></form>';
+
+    html += '<div class="results-meta"><span>Документов: ' + docs.length + '</span>' + (p.q ? '<span>Запрос: «' + esc(p.q) + '»</span>' : '') + '</div>';
+
+    html += docs.length ? '<div class="doc-list">' + docs.map(function (doc) {
+      return '<article class="doc-card"><div class="doc-card-head"><span class="doc-type">' + esc(doc.doc_type) + '</span><span class="doc-number">№ ' + esc(doc.doc_number) + '</span>' + docStatusBadge(doc.status) + demoBadge(doc.is_demo) + '</div>' +
+        '<h2><a href="#/legislation/' + esc(doc.id) + '">' + esc(doc.title) + '</a></h2>' +
+        (doc.summary ? '<p>' + esc(doc.summary) + '</p>' : '') +
+        '<div class="card-footer"><span>' + esc(doc.authority) + '</span><span aria-hidden="true">·</span><span>Принят: ' + fmt(doc.adopted_on) + '</span><span aria-hidden="true">·</span><span>Опубликован: ' + fmt(doc.published_on) + '</span></div></article>';
+    }).join('') + '</div>' : empty('Документы не найдены', 'По заданным условиям ничего не найдено. Измените запрос или сбросьте фильтры.');
+
+    html += '<p class="page-note">Дата принятия, дата опубликования и дата вступления в силу указываются отдельно. Статус отражает сведения демонстрационного набора.</p></div>';
+    return { title: 'Законодательство', html: html };
+  }
+
+  function renderLawDetail(id) {
+    var doc = LAWS.find(function (item) { return item.id === id; });
+    if (!doc) {
+      return { title: 'Документ не найден', html: notFoundPage('Документ не найден', 'Материал отсутствует в демонстрационном наборе.') };
+    }
+    var related = (doc.related_numbers || []).map(function (number) {
+      return '<li><a href="#/legislation?q=' + encodeURIComponent(number) + '">№ ' + esc(number) + '</a></li>';
+    }).join('');
+
+    var html = '<div class="container page-body">' +
+      crumbs([{ label: 'Законодательство', href: '#/legislation' }, { label: '№ ' + doc.doc_number }]) +
+      '<article><header class="article-header"><div class="card-badges">' + badge(doc.doc_type, 'navy') + docStatusBadge(doc.status) + demoBadge(doc.is_demo, true) + '</div>' +
+      '<h1 class="article-title">' + esc(doc.title) + '</h1><p class="article-number">Документ № ' + esc(doc.doc_number) + '</p>' +
+      (doc.summary ? '<p class="article-summary">' + esc(doc.summary) + '</p>' : '') + '</header>' +
+      (doc.is_demo ? demoNotice() : '') +
+      '<div class="dates-grid">' +
+      '<div><span class="dates-label">Принят</span><span class="dates-value">' + fmt(doc.adopted_on) + '</span></div>' +
+      '<div><span class="dates-label">Опубликован</span><span class="dates-value">' + fmt(doc.published_on) + '</span></div>' +
+      '<div><span class="dates-label">Вступил в силу</span><span class="dates-value">' + fmt(doc.effective_on) + '</span></div>' +
+      '<div><span class="dates-label">Редакция</span><span class="dates-value">' + esc(doc.revision || '—') + '</span></div></div>' +
+      '<div class="article-layout"><div class="article-body">' +
+      '<section class="content-section"><h2>Текст документа</h2>' + paragraphs(doc.body) + '</section>' +
+      '<section class="content-section"><h2>История изменений</h2>' +
+      (doc.history && doc.history.length ? '<ul class="history-list">' + doc.history.map(function (entry) {
+        return '<li><time>' + fmt(entry.date) + '</time><span>' + esc(entry.note) + '</span></li>';
+      }).join('') + '</ul>' : emptyCompact('История изменений не опубликована')) + '</section></div>' +
+      '<aside class="article-aside"><div class="meta-card"><h2>Паспорт документа</h2><dl class="meta-list">' +
+      '<div><dt>Тип</dt><dd>' + esc(doc.doc_type) + '</dd></div>' +
+      '<div><dt>Принявший орган</dt><dd>' + esc(doc.authority) + '</dd></div>' +
+      '<div><dt>Номер</dt><dd>' + esc(doc.doc_number) + '</dd></div>' +
+      '<div><dt>Статус</dt><dd>' + esc(DOC_STATUS[doc.status]) + '</dd></div>' +
+      '<div><dt>Дата принятия</dt><dd>' + fmt(doc.adopted_on) + '</dd></div>' +
+      '<div><dt>Дата вступления в силу</dt><dd>' + fmt(doc.effective_on) + '</dd></div></dl></div>' +
+      (related ? '<div class="meta-card"><h2>Связанные документы</h2><ul class="related-list">' + related + '</ul></div>' : '') +
+      '<a class="btn btn-secondary btn-block" href="#/legislation">Вся правовая база</a></aside></div></article></div>';
+    return { title: doc.title, html: html };
+  }
+
+  function codeConfig(kind) {
+    if (kind === 'administrative') {
+      return { title: 'Административное законодательство', kicker: 'Административная ответственность', route: '/administrative-code', categories: ADMIN_CATEGORIES, articles: ADMIN_ARTICLES, description: 'Кодекс об административных правонарушениях КФ: составы нарушений, санкции, органы рассмотрения и связанные нормы.' };
+    }
+    return { title: 'Уголовный кодекс КФ', kicker: 'Уголовное законодательство', route: '/criminal-code', categories: CRIMINAL_CATEGORIES, articles: CRIMINAL, description: 'Структура кодекса и статьи по категориям. Каждая статья содержит состав, санкцию, примечания и сведения о редакции.' };
+  }
+
+  function renderCode(kind, query) {
+    var config = codeConfig(kind);
+    var p = getParams(query);
+    var articles = config.articles.slice();
+    if (p.q) {
+      var term = p.q.toLowerCase();
+      articles = articles.filter(function (article) {
+        return [article.article_number, article.title, article.description, article.category].join(' ').toLowerCase().indexOf(term) !== -1;
+      });
+    }
+    if (p.category !== 'all') articles = articles.filter(function (article) { return article.category === p.category; });
+    articles.sort(function (a, b) { return a.article_number.localeCompare(b.article_number, 'ru', { numeric: true }); });
+
+    var groups = config.categories.map(function (name) {
+      return { name: name, items: articles.filter(function (article) { return article.category === name; }) };
+    }).filter(function (group) { return group.items.length > 0; });
+    var others = articles.filter(function (article) { return config.categories.indexOf(article.category) === -1; });
+    if (others.length) groups.push({ name: 'Прочие статьи', items: others });
+
+    var categoryOptions = config.categories.map(function (name) {
+      return '<option value="' + esc(name) + '"' + (p.category === name ? ' selected' : '') + '>' + esc(name) + '</option>';
+    }).join('');
+
+    var html = pageHeader({ kicker: config.kicker, title: config.title, description: config.description, crumbs: [{ label: config.title }] });
+    html += '<div class="container page-body">' +
+      notice('info', 'Демонстрационные нормы', 'Статьи в этой версии являются шаблонами. Санкции не установлены, а материалы не являются официально принятыми нормами КФ.') +
+      '<form class="filter-bar" data-filter-base="' + config.route + '" role="search"><div class="filter-grid">' +
+      '<div class="field field-grow"><label for="' + kind + '-search">Поиск по статьям</label><input class="input" id="' + kind + '-search" type="search" name="q" value="' + esc(p.q) + '" placeholder="Номер, название или описание состава"></div>' +
+      '<div class="field"><label for="' + kind + '-category">Категория</label><select class="select" id="' + kind + '-category" name="category" data-autosubmit><option value="all">Все категории</option>' + categoryOptions + '</select></div>' +
+      '<div class="filter-actions"><button class="btn btn-primary" type="submit">Применить</button><a class="btn btn-ghost" href="#' + config.route + '">Сбросить</a></div></div></form>';
+
+    html += groups.length ? '<div class="code-groups">' + groups.map(function (group) {
+      return '<section class="code-group"><div class="code-group-head"><h2>' + esc(group.name) + '</h2><span>' + group.items.length + '</span></div><div class="code-grid">' +
+        group.items.map(function (article) {
+          return '<article class="code-card"><div class="code-card-head"><span class="doc-number">Ст. ' + esc(article.article_number) + '</span>' + demoBadge(article.is_demo) + '</div>' +
+            '<h3><a href="#' + config.route + '/' + esc(article.id) + '">' + esc(article.title) + '</a></h3>' +
+            (article.part ? '<p class="code-part">Часть: ' + esc(article.part) + '</p>' : '') +
+            (article.description ? '<p class="code-description">' + esc(article.description.slice(0, 150)) + (article.description.length > 150 ? '…' : '') + '</p>' : '') +
+            '<div class="code-card-foot">' + badge(article.category) + '<span class="code-sanction">Санкция: ' + (article.sanction ? 'указана' : 'не установлена') + '</span></div></article>';
+        }).join('') + '</div></section>';
+    }).join('') + '</div>' : empty('Статьи не найдены', 'По заданным условиям ничего не найдено.');
+
+    html += '<p class="page-note">Структура кодекса подготовлена как основа для наполнения. Итоговые санкции и размеры штрафов устанавливаются отдельными документами после согласования.</p></div>';
+    return { title: config.title, html: html };
+  }
+
+  function renderCodeArticle(kind, id) {
+    var config = codeConfig(kind);
+    var article = config.articles.find(function (item) { return item.id === id; });
+    if (!article) {
+      return { title: 'Статья не найдена', html: notFoundPage('Статья не найдена', 'Материал отсутствует в демонстрационном наборе.') };
+    }
+    var related = (article.related || []).map(function (number) {
+      return '<li><a href="#' + config.route + '?q=' + encodeURIComponent(number) + '">Статья ' + esc(number) + '</a></li>';
+    }).join('');
+    var history = (article.history || []).map(function (entry) {
+      return '<li><time>' + fmt(entry.date) + '</time><span>' + esc(entry.note) + '</span></li>';
+    }).join('');
+
+    var html = '<div class="container page-body">' +
+      crumbs([{ label: config.title, href: '#' + config.route }, { label: 'Статья ' + article.article_number }]) +
+      '<article><header class="article-header"><div class="card-badges">' + badge('Статья ' + article.article_number, 'navy') + docStatusBadge(article.status) + demoBadge(article.is_demo, true) + '</div>' +
+      '<h1 class="article-title">' + esc(article.title) + '</h1>' +
+      '<div class="article-meta"><span>' + esc(article.category) + '</span><span aria-hidden="true">·</span><span>Вступает в силу: ' + fmt(article.effective_on) + '</span></div></header>' +
+      (article.is_demo ? demoNotice() : '') +
+      '<div class="article-layout"><div class="article-body">' +
+      '<section class="content-section"><h2>Состав</h2>' + paragraphs(article.description) + '</section>' +
+      '<section class="content-section"><h2>Санкция</h2>' +
+      (article.sanction ? paragraphs(article.sanction) : emptyCompact('Санкция не установлена', 'Санкция будет опубликована после согласования и утверждения.')) + '</section>' +
+      (article.notes ? '<section class="content-section"><h2>Примечания</h2>' + paragraphs(article.notes) + '</section>' : '') +
+      '<section class="content-section"><h2>Связанные статьи</h2>' + (related ? '<ul class="related-list">' + related + '</ul>' : '<p class="muted">Связанные статьи не указаны.</p>') + '</section>' +
+      '<section class="content-section"><h2>История редакций</h2>' + (history ? '<ul class="history-list">' + history + '</ul>' : emptyCompact('История редакций не опубликована')) + '</section>' +
+      '</div><aside class="article-aside"><div class="meta-card"><h2>Паспорт статьи</h2><dl class="meta-list">' +
+      '<div><dt>Кодекс</dt><dd>' + esc(config.title) + '</dd></div>' +
+      '<div><dt>Номер</dt><dd>' + esc(article.article_number) + '</dd></div>' +
+      '<div><dt>Категория</dt><dd>' + esc(article.category) + '</dd></div>' +
+      '<div><dt>Статус</dt><dd>' + esc(DOC_STATUS[article.status]) + '</dd></div>' +
+      '<div><dt>Вступление в силу</dt><dd>' + fmt(article.effective_on) + '</dd></div></dl></div>' +
+      '<a class="btn btn-secondary btn-block" href="#' + config.route + '">К списку статей</a></aside></div></article></div>';
+    return { title: 'Статья ' + article.article_number, html: html };
+  }
+
+  function renderBodies() {
+    var html = pageHeader({
+      kicker: 'Структура государства',
+      title: 'Органы власти',
+      description: 'Сведения о государственных органах Комаринской Федерации. Персональные данные должностных лиц не публикуются без подтверждения.',
+      crumbs: [{ label: 'Органы власти' }]
+    });
+    html += '<div class="container page-body">' +
+      notice('info', 'Раздел в подготовке', 'Карточки органов содержат только общие сведения. Полномочия и персональный состав будут опубликованы после официального подтверждения.') +
+      '<div class="bodies-groups">';
+    Object.keys(BODY_KINDS).forEach(function (kind) {
+      var items = BODIES.filter(function (body) { return body.kind === kind; });
+      if (!items.length) return;
+      html += '<section class="bodies-group"><div class="code-group-head"><h2>' + esc(BODY_KINDS[kind]) + '</h2><span>' + items.length + '</span></div><div class="bodies-grid">' +
+        items.map(function (body) {
+          return '<article class="body-card"><span class="body-kind">' + esc(BODY_KINDS[body.kind]) + '</span><h3><a href="#/bodies/' + esc(body.slug) + '">' + esc(body.name) + '</a></h3><p>' + esc(body.summary) + '</p><a class="card-link" href="#/bodies/' + esc(body.slug) + '">Подробнее <span aria-hidden="true">→</span></a></article>';
+        }).join('') + '</div></section>';
+    });
+    html += '</div><p class="page-note">Раздел описывает структуру органов. Имена должностных лиц и конкретные полномочия не публикуются без официальных материалов.</p></div>';
+    return { title: 'Органы власти', html: html };
+  }
+
+  function renderBody(slug) {
+    var body = BODIES.find(function (item) { return item.slug === slug; });
+    if (!body) {
+      return { title: 'Орган не найден', html: notFoundPage('Орган не найден', 'Карточка отсутствует в демонстрационном наборе.') };
+    }
+    var html = '<div class="container page-body">' +
+      crumbs([{ label: 'Органы власти', href: '#/bodies' }, { label: body.name }]) +
+      '<div class="article-header"><p class="kicker">' + esc(BODY_KINDS[body.kind]) + '</p><h1 class="article-title">' + esc(body.name) + '</h1><p class="article-summary">' + esc(body.summary) + '</p></div>' +
+      '<div class="article-layout"><div class="article-body">' +
+      '<section class="content-section"><h2>Сведения об органе</h2>' + (body.description ? paragraphs(body.description) : emptyCompact('Описание готовится к публикации')) + '</section>' +
+      '<section class="content-section"><h2>Структура</h2>' + (body.structure ? paragraphs(body.structure) : emptyCompact('Структура не опубликована', 'Схема и состав органа будут размещены после официального подтверждения.')) + '</section>' +
+      '<section class="content-section"><h2>Контакты</h2>' + (body.contacts ? paragraphs(body.contacts) : emptyCompact('Контактные сведения не опубликованы')) + '</section>' +
+      '</div><aside class="article-aside"><div class="meta-card"><h2>Общие сведения</h2><dl class="meta-list">' +
+      '<div><dt>Тип органа</dt><dd>' + esc(BODY_KINDS[body.kind]) + '</dd></div>' +
+      '<div><dt>Наименование</dt><dd>' + esc(body.name) + '</dd></div></dl></div>' +
+      '<a class="btn btn-secondary btn-block" href="#/bodies">Все органы власти</a></aside></div></div>';
+    return { title: body.name, html: html };
+  }
+
+  function renderInternational(query) {
+    var p = getParams(query);
+    var docs = INTL.slice();
+    if (p.kind !== 'all') docs = docs.filter(function (doc) { return doc.kind === p.kind; });
+    if (p.q) {
+      var term = p.q.toLowerCase();
+      docs = docs.filter(function (doc) { return [doc.title, doc.summary, doc.body, doc.country].join(' ').toLowerCase().indexOf(term) !== -1; });
+    }
+    var kindOptions = Object.keys(INTL_KINDS).map(function (key) {
+      return '<option value="' + key + '"' + (p.kind === key ? ' selected' : '') + '>' + esc(INTL_KINDS[key]) + '</option>';
+    }).join('');
+
+    var html = pageHeader({
+      kicker: 'Внешняя политика',
+      title: 'Международные отношения',
+      description: 'Договоры, соглашения, заявления и материалы переговоров Комаринской Федерации с другими государствами RP-проекта.',
+      crumbs: [{ label: 'Международные отношения' }]
+    });
+    html += '<div class="container page-body">' +
+      notice('info', 'Демонстрационные материалы', 'Все международные документы в локальной версии являются шаблонами и не отражают реальных дипломатических решений.') +
+      '<form class="filter-bar" data-filter-base="/international" role="search"><div class="filter-grid">' +
+      '<div class="field field-grow"><label for="intl-search">Поиск по материалам</label><input class="input" id="intl-search" type="search" name="q" value="' + esc(p.q) + '" placeholder="Название, страна или содержание"></div>' +
+      '<div class="field"><label for="intl-kind">Тип материала</label><select class="select" id="intl-kind" name="kind" data-autosubmit><option value="all">Все типы</option>' + kindOptions + '</select></div>' +
+      '<div class="filter-actions"><button class="btn btn-primary" type="submit">Применить</button><a class="btn btn-ghost" href="#/international">Сбросить</a></div></div></form>';
+
+    html += docs.length ? '<div class="intl-list">' + docs.map(function (doc) {
+      return '<article class="intl-card"><div class="intl-card-head">' + badge(INTL_KINDS[doc.kind], 'navy') + '<span class="intl-country">' + esc(doc.country) + '</span><span class="intl-date">' + fmt(doc.signed_on) + '</span>' + demoBadge(doc.is_demo, true) + '</div>' +
+        '<h2>' + esc(doc.title) + '</h2>' +
+        (doc.summary ? '<p>' + esc(doc.summary) + '</p>' : '') +
+        '<div class="intl-meta"><span>Статус: ' + esc(doc.status) + '</span></div>' +
+        '<details class="intl-body"><summary>Читать материал</summary>' + demoNotice() + paragraphs(doc.body) + '</details></article>';
+    }).join('') + '</div>' : empty('Материалы не найдены', 'По заданным условиям ничего не найдено.');
+
+    html += '<p class="page-note">Раздел ведётся в хронологическом порядке. Демонстрационные материалы не отражают официальных дипломатических решений.</p></div>';
+    return { title: 'Международные отношения', html: html };
+  }
+
+  function renderSearch(query) {
+    var p = getParams(query);
+    var q = p.q;
+    var groups = [];
+
+    if (q) {
+      var term = q.toLowerCase();
+      var news = published().filter(function (post) {
+        return [post.title, post.summary, post.body].join(' ').toLowerCase().indexOf(term) !== -1;
+      }).map(function (post) {
+        return { href: '#/news/' + post.id, title: post.title, meta: NEWS_CATEGORIES[post.category] + ' · ' + fmt(post.published_at) };
+      });
+      var laws = LAWS.filter(function (doc) {
+        return [doc.title, doc.summary, doc.body, doc.doc_number].join(' ').toLowerCase().indexOf(term) !== -1;
+      }).map(function (doc) {
+        return { href: '#/legislation/' + doc.id, title: doc.title, meta: doc.doc_type + ' · № ' + doc.doc_number };
+      });
+      var bills = BILLS.filter(function (bill) {
+        return [bill.title, bill.summary, bill.number].join(' ').toLowerCase().indexOf(term) !== -1;
+      }).map(function (bill) {
+        return { href: '#/duma/bills/' + bill.id, title: bill.title, meta: 'Законопроект № ' + bill.number };
+      });
+      var criminal = CRIMINAL.filter(function (article) {
+        return [article.title, article.description, article.article_number].join(' ').toLowerCase().indexOf(term) !== -1;
+      }).map(function (article) {
+        return { href: '#/criminal-code/' + article.id, title: 'Ст. ' + article.article_number + '. ' + article.title, meta: 'Уголовный кодекс КФ' };
+      });
+      var admin = ADMIN_ARTICLES.filter(function (article) {
+        return [article.title, article.description, article.article_number].join(' ').toLowerCase().indexOf(term) !== -1;
+      }).map(function (article) {
+        return { href: '#/administrative-code/' + article.id, title: 'Ст. ' + article.article_number + '. ' + article.title, meta: 'Административное законодательство' };
+      });
+      var intl = INTL.filter(function (doc) {
+        return [doc.title, doc.summary, doc.body, doc.country].join(' ').toLowerCase().indexOf(term) !== -1;
+      }).map(function (doc) {
+        return { href: '#/international', title: doc.title, meta: INTL_KINDS[doc.kind] + ' · ' + doc.country };
+      });
+
+      groups = [
+        { label: 'Новости', items: news },
+        { label: 'Законодательство', items: laws },
+        { label: 'Дума КФ', items: bills },
+        { label: 'Уголовный кодекс', items: criminal },
+        { label: 'Административное законодательство', items: admin },
+        { label: 'Международные отношения', items: intl }
+      ].filter(function (group) { return group.items.length > 0; });
+    }
+
+    var total = groups.reduce(function (sum, group) { return sum + group.items.length; }, 0);
+
+    var html = pageHeader({
+      kicker: 'Поиск',
+      title: 'Поиск по порталу',
+      description: 'Единый поиск по новостям, нормативным актам, законопроектам и статьям кодексов.',
+      crumbs: [{ label: 'Поиск' }]
+    });
+
+    html += '<div class="container page-body">' +
+      '<form class="search-page-form" role="search" data-search-page><label class="visually-hidden" for="page-search">Поисковый запрос</label>' +
+      '<input class="input input-lg" id="page-search" type="search" name="q" value="' + esc(q) + '" placeholder="Введите запрос" autofocus>' +
+      '<button class="btn btn-primary" type="submit">Найти</button></form>';
+
+    if (!q) {
+      html += empty('Введите поисковый запрос', 'Например, номер документа, название законопроекта или ключевое слово.');
+    } else if (!total) {
+      html += empty('Ничего не найдено', 'По запросу «' + q + '» демонстрационных материалов не найдено.');
+    } else {
+      html += '<div class="search-summary"><span>Найдено материалов: ' + total + '</span><span>Запрос: «' + esc(q) + '»</span></div><div class="search-groups">' +
+        groups.map(function (group) {
+          return '<section class="search-group"><div class="code-group-head"><h2>' + esc(group.label) + '</h2><span>' + group.items.length + '</span></div><ul class="search-list">' +
+            group.items.map(function (item) {
+              return '<li><a href="' + item.href + '">' + esc(item.title) + '</a><span>' + esc(item.meta) + '</span></li>';
+            }).join('') + '</ul></section>';
+        }).join('') + '</div>';
+    }
+
+    html += '</div>';
+    return { title: 'Поиск', html: html };
+  }
+
+  function renderAbout() {
+    var html = pageHeader({
+      kicker: 'Сведения о проекте',
+      title: 'О портале',
+      description: 'Назначение портала, принципы публикации, техническая информация и сведения о разработчике.',
+      crumbs: [{ label: 'О портале' }]
+    });
+
+    html += '<div class="container page-body about-page"><div class="about-grid"><div class="about-main">' +
+      '<section class="content-section"><h2>Назначение портала</h2>' +
+      '<p>Официальный портал Комаринской Федерации — информационный ресурс RP-проекта. Он объединяет публикации государственных органов, электронную правовую базу, материалы Думы КФ и сведения о структуре власти.</p>' +
+      '<p>Портал не является средством массовой информации и не заменяет официальные каналы опубликования. Статус каждого материала указывается в его карточке.</p></section>' +
+
+      '<section class="content-section"><h2>Принципы публикации</h2><ul class="about-list">' +
+      '<li><strong>Разделение статусов.</strong> Черновики не отображаются публично. Опубликованные материалы доступны для чтения и не могут быть изменены анонимными пользователями.</li>' +
+      '<li><strong>Разделение дат.</strong> Дата принятия, дата опубликования и дата вступления в силу указываются отдельно.</li>' +
+      '<li><strong>Маркировка демонстрационных данных.</strong> Материалы, созданные для проверки интерфейса, помечаются как демонстрационные и не являются официальными документами.</li>' +
+      '<li><strong>Проверяемость.</strong> В основной версии изменения фиксируются в истории редакций и журнале действий административной панели.</li>' +
+      '<li><strong>Защита данных.</strong> Публичный доступ ограничен политиками RLS Supabase. Административные действия проверяются на уровне базы данных.</li>' +
+      '</ul></section>' +
+
+      '<section class="content-section"><h2>Две версии портала</h2>' +
+      '<p><strong>Основная версия</strong> построена на React, TypeScript и Vite и предназначена для публикации на GitHub Pages. Данные и авторизация обеспечиваются Supabase.</p>' +
+      '<p><strong>Эта локальная версия</strong> представляет собой один автономный HTML-файл. Она открывается напрямую через file:// в Microsoft Edge, не требует интернета, сборки, терминала или Supabase. Все данные встроены в файл и являются демонстрационными.</p>' +
+      '<p>Изменения, внесённые в демонстрационном редакторе, сохраняются только в памяти страницы и не попадают в базу данных. После перезагрузки файла восстанавливается исходный набор.</p></section>' +
+
+      '<section class="content-section"><h2>Контакты</h2>' +
+      '<p>Контактные сведения оператора портала публикуются по мере их утверждения. Технические вопросы решаются через администратора проекта и репозиторий исходного кода.</p>' +
+      '<p class="muted">Портал не публикует персональные данные должностных лиц без официального подтверждения.</p></section>' +
+
+      '<section class="content-section"><h2>Разработчик</h2>' +
+      '<p>Портал разработан KALTEN Technologies. KALTEN Technologies является разработчиком программного обеспечения и не является государственным органом Комаринской Федерации, если такой статус не установлен отдельно.</p>' +
+      '<div class="developer-card"><svg width="44" height="44" viewBox="0 0 64 64" role="img" aria-label="Временный знак портала" style="color:#102338"><rect width="64" height="64" fill="currentColor"></rect><path d="M32 8 52 18v16c0 11-8.4 18.6-20 22-11.6-3.4-20-11-20-22V18L32 8Z" fill="none" stroke="#c9d5e3" stroke-width="2"></path><path d="M22 24v16M22 32h8l7-8M30 32l7 8" fill="none" stroke="#ffffff" stroke-width="2.4"></path><path d="M41 24v16" stroke="#b08d57" stroke-width="2.4"></path></svg>' +
+      '<div><p class="developer-name">KALTEN Technologies</p><p class="developer-role">Разработка и техническая поддержка портала</p></div></div>' +
+      '<p class="developer-credit">Разработано KALTEN Technologies</p></section>' +
+      '</div><aside class="about-aside">' +
+      '<div class="meta-card"><h2>Кратко</h2><dl class="meta-list">' +
+            '<div><dt>Государство</dt><dd>Комаринская Федерация</dd></div>' +
+      '<div><dt>Сокращение</dt><dd>КФ</dd></div>' +
+      '<div><dt>Язык</dt><dd>Русский</dd></div>' +
+      '<div><dt>Публикация</dt><dd>GitHub Pages (основная версия)</dd></div>' +
+      '<div><dt>Данные</dt><dd>Supabase (основная версия)</dd></div>' +
+      '<div><dt>Режим</dt><dd>Локальный демонстрационный файл</dd></div>' +
+      '<div><dt>Разработчик</dt><dd>KALTEN Technologies</dd></div>' +
+      '</dl></div>' +
+      '<div class="meta-card"><h2>Локальная версия</h2><p class="small muted">Файл <code>local/index.html</code> открывается напрямую в браузере без сервера и интернета. Изменения в нём не попадают в Supabase.</p><a class="text-link" href="#/news">Перейти к новостям <span aria-hidden="true">→</span></a></div>' +
+      '</aside></div></div>';
+    return { title: 'О портале', html: html };
+  }
+
+  function notFoundPage(title, text) {
+    return '<div class="container page-body not-found">' +
+      '<p class="kicker">Ошибка 404</p>' +
+      '<h1 class="page-title">' + esc(title) + '</h1>' +
+      '<p class="page-description">' + esc(text || 'Адрес может быть указан неверно, либо материал был перемещён.') + '</p>' +
+      '<div class="hero-actions"><a class="btn btn-primary" href="#/">На главную</a><a class="btn btn-secondary" href="#/search">Перейти к поиску</a></div></div>';
+  }
+
+  function statusTone(status) {
+    if (status === 'published') return 'green';
+    if (status === 'draft') return 'amber';
+    return 'neutral';
+  }
+
+  function renderDemoAdmin(editId) {
+    var current = null;
+    if (editId) {
+      current = newsStore.find(function (item) { return item.id === editId; });
+      if (!current) {
+        return { title: 'Публикация не найдена', html: notFoundPage('Публикация не найдена', 'Материал отсутствует в демонстрационном наборе.') };
+      }
+    }
+
+    var draft = current || {
+      title: '',
+      summary: '',
+      body: '',
+      category: 'state',
+      author: 'Демонстрационный материал',
+      status: 'draft',
+      is_demo: true
+    };
+
+    var html = pageHeader({
+      kicker: 'Локальный демонстрационный режим',
+      title: 'Демонстрационный редактор',
+      description: 'Управление встроенным набором новостей без авторизации и без подключения к Supabase.',
+      crumbs: [{ label: 'Демонстрационный редактор' }]
+    });
+
+    html += '<div class="container page-body">' +
+      notice('warning', 'Изменения не сохраняются на диск', 'Редактор работает только в памяти открытой страницы. После перезагрузки файла восстанавливается исходный демонстрационный набор. Материалы не публикуются в базе данных.') +
+      '<div class="admin-workspace">' +
+      '<div class="admin-toolbar"><div><p class="admin-user">Демонстрационный редактор ' + badge('Без авторизации', 'gold') + '</p>' +
+      '<p class="muted small">Доступна только работа с новостями. Остальные разделы используют встроенные демонстрационные данные.</p></div>' +
+      '<div class="inline-actions"><a class="btn btn-primary btn-sm" href="#/demo-admin">Новая публикация</a>' +
+      '<button class="btn btn-secondary btn-sm" type="button" data-action="demo-reset">Сбросить набор</button></div></div>';
+
+    html += '<div class="results-meta"><span>Публикаций в наборе: ' + newsStore.length + '</span><span>Опубликовано: ' + published().length + '</span></div>';
+
+    if (!newsStore.length) {
+      html += empty('Публикаций пока нет', 'Создайте первую публикацию или восстановите демонстрационный набор.');
+    } else {
+      var rows = newsStore.slice().sort(byDateDesc).map(function (post) {
+        return '<tr><td><span class="admin-post-title">' + esc(post.title) + '</span>' + (post.is_demo ? '<span class="demo-inline">Демо</span>' : '') + '</td>' +
+          '<td>' + esc(NEWS_CATEGORIES[post.category] || post.category) + '</td>' +
+          '<td>' + badge(PUBLISH_STATUS[post.status] || post.status, statusTone(post.status)) + '</td>' +
+          '<td>' + fmt(post.published_at) + '</td>' +
+          '<td><div class="table-actions"><a href="#/demo-admin/edit/' + esc(post.id) + '">Изменить</a>' +
+          '<button class="danger" type="button" data-action="demo-delete" data-id="' + esc(post.id) + '">Удалить</button></div></td></tr>';
+      }).join('');
+
+      html += '<div class="table-wrap"><table class="data-table admin-table"><caption class="visually-hidden">Публикации демонстрационного набора</caption>' +
+        '<thead><tr><th scope="col">Заголовок</th><th scope="col">Категория</th><th scope="col">Статус</th><th scope="col">Дата</th><th scope="col">Действия</th></tr></thead>' +
+        '<tbody>' + rows + '</tbody></table></div>';
+    }
+
+    var categoryOptions = Object.keys(NEWS_CATEGORIES).map(function (key) {
+      return '<option value="' + key + '"' + (draft.category === key ? ' selected' : '') + '>' + esc(NEWS_CATEGORIES[key]) + '</option>';
+    }).join('');
+    var statusOptions = Object.keys(PUBLISH_STATUS).map(function (key) {
+      return '<option value="' + key + '"' + (draft.status === key ? ' selected' : '') + '>' + esc(PUBLISH_STATUS[key]) + '</option>';
+    }).join('');
+
+    html += '<section class="panel" id="demo-editor"><div class="panel-head"><h2>' + (current ? 'Редактирование публикации' : 'Новая публикация') + '</h2>' +
+      (current ? '<a class="text-button" href="#/demo-admin">Отменить редактирование</a>' : '') + '</div>' +
+      '<div class="panel-body"><form class="admin-form" id="demo-news-form" data-id="' + (current ? esc(current.id) : '') + '">' +
+      '<div class="field"><label for="demo-post-title">Заголовок</label><input class="input" id="demo-post-title" name="title" value="' + esc(draft.title) + '" maxlength="200" required></div>' +
+      '<div class="field"><label for="demo-post-summary">Краткое описание</label><textarea class="input textarea" id="demo-post-summary" name="summary" rows="3" maxlength="600">' + esc(draft.summary) + '</textarea></div>' +
+      '<div class="field"><label for="demo-post-body">Полный текст</label><textarea class="input textarea" id="demo-post-body" name="body" rows="10">' + esc(draft.body) + '</textarea><p class="field-hint">Абзацы разделяются пустой строкой.</p></div>' +
+      '<div class="admin-form-row"><div class="field"><label for="demo-post-category">Категория</label><select class="select" id="demo-post-category" name="category">' + categoryOptions + '</select></div>' +
+      '<div class="field"><label for="demo-post-status">Статус</label><select class="select" id="demo-post-status" name="status">' + statusOptions + '</select></div></div>' +
+      '<div class="field"><label for="demo-post-author">Автор или орган</label><input class="input" id="demo-post-author" name="author" value="' + esc(draft.author) + '" placeholder="Например: Демонстрационный материал"></div>' +
+      '<label class="checkbox-row"><input type="checkbox" name="is_demo" value="1"' + (draft.is_demo !== false ? ' checked' : '') + '><span>Пометить материал как демонстрационный</span></label>' +
+      '<div class="admin-form-actions"><button class="btn btn-primary" type="submit">' + (current ? 'Сохранить изменения' : 'Создать публикацию') + '</button>' +
+      '<a class="btn btn-ghost" href="#/news">Открыть публичную ленту</a></div></form></div></section>' +
+      '</div><p class="page-note">Демонстрационные материалы не являются официальными сообщениями Комаринской Федерации. Изменения исчезают после перезагрузки страницы.</p></div>';
+
+    return { title: 'Демонстрационный редактор', html: html };
+  }
+
+  function parseRoute() {
+    var raw = window.location.hash.replace(/^#/, '');
+    var queryIndex = raw.indexOf('?');
+    var path = queryIndex >= 0 ? raw.slice(0, queryIndex) : raw;
+    var query = new URLSearchParams(queryIndex >= 0 ? raw.slice(queryIndex + 1) : '');
+    if (!path) path = '/';
+    if (path.charAt(0) !== '/') path = '/' + path;
+    if (path.length > 1) path = path.replace(/\/+$/, '');
+    return { path: path, query: query };
+  }
+
+  function setActiveNav(section) {
+    var links = document.querySelectorAll('[data-nav]');
+    for (var i = 0; i < links.length; i += 1) {
+      var link = links[i];
+      var active = link.getAttribute('data-nav') === section;
+      if (active) {
+        link.classList.add('active');
+        link.setAttribute('aria-current', 'page');
+      } else {
+        link.classList.remove('active');
+        link.removeAttribute('aria-current');
+      }
+    }
+  }
+
+  function closeMenu() {
+    var panel = document.getElementById('mobile-navigation');
+    var toggle = document.querySelector('[data-action="toggle-menu"]');
+    if (panel) {
+      panel.hidden = true;
+      panel.classList.remove('open');
+    }
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  function renderRoute() {
+    var route = parseRoute();
+    var parts = route.path.split('/').filter(Boolean);
+    var result;
+    var active = '';
+
+    if (!parts.length) {
+      active = 'home';
+      result = renderHome();
+    } else if (parts[0] === 'news' && !parts[1]) {
+      active = 'news';
+      result = renderNews(route.query);
+    } else if (parts[0] === 'news' && parts[1]) {
+      active = 'news';
+      result = renderNewsDetail(parts[1]);
+    } else if (parts[0] === 'duma' && parts[1] === 'bills' && parts[2]) {
+      active = 'duma';
+      result = renderBill(parts[2]);
+    } else if (parts[0] === 'duma') {
+      active = 'duma';
+      result = renderDuma(route.query);
+    } else if (parts[0] === 'legislation' && parts[1]) {
+      active = 'legislation';
+      result = renderLawDetail(parts[1]);
+    } else if (parts[0] === 'legislation') {
+      active = 'legislation';
+      result = renderLegislation(route.query);
+    } else if (parts[0] === 'criminal-code' && parts[1]) {
+      active = 'criminal-code';
+      result = renderCodeArticle('criminal', parts[1]);
+    } else if (parts[0] === 'criminal-code') {
+      active = 'criminal-code';
+      result = renderCode('criminal', route.query);
+    } else if (parts[0] === 'administrative-code' && parts[1]) {
+      active = 'administrative-code';
+      result = renderCodeArticle('administrative', parts[1]);
+    } else if (parts[0] === 'administrative-code') {
+      active = 'administrative-code';
+      result = renderCode('administrative', route.query);
+    } else if (parts[0] === 'bodies' && parts[1]) {
+      active = 'bodies';
+      result = renderBody(parts[1]);
+    } else if (parts[0] === 'bodies') {
+      active = 'bodies';
+      result = renderBodies();
+    } else if (parts[0] === 'international') {
+      active = 'international';
+      result = renderInternational(route.query);
+    } else if (parts[0] === 'about') {
+      active = 'about';
+      result = renderAbout();
+    } else if (parts[0] === 'search') {
+      result = renderSearch(route.query);
+    } else if (parts[0] === 'demo-admin' && parts[1] === 'edit' && parts[2]) {
+      result = renderDemoAdmin(parts[2]);
+    } else if (parts[0] === 'demo-admin') {
+      result = renderDemoAdmin(null);
+    } else {
+      result = { title: 'Страница не найдена', html: notFoundPage('Страница не найдена', 'Адрес может быть указан неверно, либо материал был перемещён. Воспользуйтесь навигацией или вернитесь на главную страницу.') };
+    }
+
+    app.innerHTML = result.html;
+    document.title = result.title + ' — Официальный портал Комаринской Федерации';
+    document.getElementById('year').textContent = String(new Date().getFullYear());
+    setActiveNav(active);
+    closeMenu();
+    window.scrollTo(0, 0);
+  }
+
+  function navigate(hash) {
+    if (window.location.hash === hash) {
+      renderRoute();
+    } else {
+      window.location.hash = hash;
+    }
+  }
+
+  function toast(text, isError) {
+    if (!toastBox) return;
+    var node = document.createElement('div');
+    node.className = 'toast' + (isError ? ' toast-error' : '');
+    node.setAttribute('role', isError ? 'alert' : 'status');
+    node.textContent = text;
+    toastBox.appendChild(node);
+    window.setTimeout(function () {
+      node.classList.add('toast-out');
+      window.setTimeout(function () {
+        if (node.parentNode) node.parentNode.removeChild(node);
+      }, 280);
+    }, 3600);
+  }
+
+  function searchHash(form) {
+    var data = new FormData(form);
+    var value = String(data.get('q') || '').trim();
+    navigate('#/search' + (value ? '?q=' + encodeURIComponent(value) : ''));
+  }
+
+  function submitFilter(form) {
+    var base = form.getAttribute('data-filter-base');
+    if (!base) return;
+    var data = new FormData(form);
+    var params = new URLSearchParams();
+    data.forEach(function (value, key) {
+      var normalized = String(value).trim();
+      if (normalized && normalized !== 'all') params.append(key, normalized);
+    });
+    var query = params.toString();
+    navigate('#' + base + (query ? '?' + query : ''));
+  }
+
+  function saveDemoNews(form) {
+    var data = new FormData(form);
+    var title = String(data.get('title') || '').trim();
+    if (title.length < 3) {
+      toast('Заголовок должен содержать не менее 3 символов.', true);
+      var titleInput = document.getElementById('demo-post-title');
+      if (titleInput) titleInput.focus();
+      return;
+    }
+
+    var id = form.getAttribute('data-id');
+    var existing = id ? newsStore.find(function (item) { return item.id === id; }) : null;
+    var isDemo = data.get('is_demo') === '1';
+    var status = String(data.get('status') || 'draft');
+    var values = {
+      title: title,
+      summary: String(data.get('summary') || '').trim(),
+      body: String(data.get('body') || '').trim(),
+      category: String(data.get('category') || 'state'),
+      author: String(data.get('author') || '').trim() || 'Демонстрационный материал',
+      status: status,
+      is_demo: isDemo,
+      published_at: existing ? existing.published_at : todayIso()
+    };
+
+    if (existing) {
+      Object.keys(values).forEach(function (key) { existing[key] = values[key]; });
+      toast('Публикация обновлена в памяти страницы.');
+    } else {
+      var created = {
+        id: 'local-' + Date.now().toString(36),
+        title: values.title,
+        summary: values.summary,
+        body: values.body,
+        category: values.category,
+        author: values.author,
+        status: values.status,
+        is_demo: values.is_demo,
+        published_at: values.published_at
+      };
+      newsStore.unshift(created);
+      toast('Публикация создана в памяти страницы.');
+    }
+
+    navigate('#/demo-admin');
+  }
+
+  document.addEventListener('submit', function (event) {
+    var form = event.target;
+    if (!form || !form.matches) return;
+    if (form.id === 'global-search-form' || form.matches('[data-global-search]')) {
+      event.preventDefault();
+      searchHash(form);
+      return;
+    }
+    if (form.matches('[data-filter-base]')) {
+      event.preventDefault();
+      submitFilter(form);
+      return;
+    }
+    if (form.matches('[data-search-page]')) {
+      event.preventDefault();
+      searchHash(form);
+      return;
+    }
+    if (form.id === 'demo-news-form') {
+      event.preventDefault();
+      saveDemoNews(form);
+    }
+  });
+
+  document.addEventListener('change', function (event) {
+    var target = event.target;
+    if (target && target.matches && target.matches('[data-autosubmit]')) {
+      var form = target.form;
+      if (form && form.matches('[data-filter-base]')) submitFilter(form);
+    }
+  });
+
+  document.addEventListener('click', function (event) {
+    var target = event.target;
+    if (!target || !target.closest) return;
+
+    var toggle = target.closest('[data-action="toggle-menu"]');
+    if (toggle) {
+      var panel = document.getElementById('mobile-navigation');
+      if (panel) {
+        var willOpen = panel.hidden;
+        panel.hidden = !willOpen;
+        panel.classList.toggle('open', willOpen);
+        toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      }
+      return;
+    }
+
+    var reset = target.closest('[data-action="demo-reset"]');
+    if (reset) {
+      if (!window.confirm('Сбросить демонстрационный набор? Все изменения в памяти страницы будут потеряны.')) return;
+      newsStore = JSON.parse(JSON.stringify(NEWS));
+      toast('Демонстрационный набор восстановлен.');
+      navigate('#/demo-admin');
+      return;
+    }
+
+    var remove = target.closest('[data-action="demo-delete"]');
+    if (remove) {
+      var id = remove.getAttribute('data-id');
+      var post = newsStore.find(function (item) { return item.id === id; });
+      if (!post) return;
+      if (!window.confirm('Удалить публикацию «' + post.title + '» из демонстрационного набора?')) return;
+      newsStore = newsStore.filter(function (item) { return item.id !== id; });
+      toast('Публикация удалена из памяти страницы.');
+      navigate('#/demo-admin');
+    }
+  });
+
+  window.addEventListener('hashchange', renderRoute);
+
+  renderRoute();
+})();
+</script>
+</body>
+</html>
