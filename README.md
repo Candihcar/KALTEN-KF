@@ -10,8 +10,8 @@
 
 | Версия | Файл | Назначение |
 | --- | --- | --- |
-| Основная | `src/` | React + TypeScript + Vite, данные и авторизация Supabase, публикация на GitHub Pages |
-| Автономная | `local/index.html` | Один HTML-файл без сети, сборки и Supabase; открывается через `file://` в Microsoft Edge |
+| Основная | `src/` | React + TypeScript + Vite, данные и авторизация Supabase; исходники production-версии |
+| Автономная | `local/index.html` | Один HTML-файл без сети, сборки и Supabase; публикуется на GitHub Pages и открывается через `file://` в Microsoft Edge |
 
 Автономная версия предназначена для демонстрации интерфейса. Встроенный демонстрационный редактор изменяет данные только в памяти открытой страницы. После перезагрузки восстанавливается исходный набор.
 
@@ -112,19 +112,11 @@ VITE_SUPABASE_ANON_KEY=YOUR-PUBLIC-ANON-KEY
 
 1. Создайте репозиторий на GitHub и загрузите файлы проекта через веб-интерфейс. Если скрытый каталог `.github` не загрузился, создайте `.github/workflows/deploy.yml` через **Add file → Create new file**.
 2. Откройте **Settings → Pages** и выберите источник **GitHub Actions**.
-3. Откройте **Settings → Secrets and variables → Actions → Variables** и добавьте:
-   - `VITE_SUPABASE_URL`;
-   - `VITE_SUPABASE_ANON_KEY`.
+3. Workflow копирует `local/index.html` в `dist/index.html` и публикует его. Переменные Supabase для этой публикации не требуются.
 4. Отправьте изменения в ветку `main` или запустите workflow вручную на вкладке **Actions**.
-5. После сборки адрес сайта отображается в окружении `github-pages` и в разделе **Settings → Pages**.
+5. После публикации адрес сайта отображается в окружении `github-pages` и в разделе **Settings → Pages**.
 
-Для обычного репозитория базовый путь автоматически равен `/<имя-репозитория>/`. Для сайта пользователя или организации вида `<username>.github.io` измените в workflow:
-
-```yaml
-VITE_BASE: /
-```
-
-При использовании собственного домена базовый путь также должен быть `/`. Подробнее: `docs/DEPLOYMENT.md`.
+Сайт использует hash-маршруты (`#/news`, `#/duma`), поэтому дополнительный base path не нужен. React-версия сохранена в `src/` и может быть возвращена в workflow отдельной задачей. Подробнее: `docs/DEPLOYMENT.md`.
 
 ## Команды
 
