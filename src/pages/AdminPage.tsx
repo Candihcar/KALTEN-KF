@@ -2,16 +2,41 @@ import { useEffect, useState, type FormEvent } from 'react'
 import type { Session } from '@supabase/supabase-js'
 import { Link } from 'react-router-dom'
 import { errorMessage, useAsync } from '../lib/useAsync'
-import { formatDateTime, newsCategories, newsCategoryLabels } from '../lib/format'
+import {
+  billStatusLabels,
+  billStatusTone,
+  docStatusLabels,
+  docStatusTone,
+  docTypeOptions,
+  formatDate,
+  formatDateTime,
+  intlKindLabels,
+  newsCategories,
+  newsCategoryLabels
+} from '../lib/format'
 import { isSupabaseConfigured, supabase } from '../lib/supabase'
 import {
+  canManageContent,
+  canManageDuma,
   canManageNews,
+  deleteBill,
+  deleteIntl,
+  deleteLaw,
   deleteNews,
+  fetchBillsForAdmin,
+  fetchIntlForAdmin,
+  fetchLawsForAdmin,
   fetchNewsForAdmin,
   fetchProfile,
+  saveBill,
+  saveIntl,
+  saveLaw,
   saveNews,
   signIn,
   signOut,
+  type BillDraft,
+  type IntlDraft,
+  type LawDraft,
   type NewsDraft
 } from '../services/admin'
 import {
@@ -22,7 +47,15 @@ import {
   Notice,
   PageHeader
 } from '../components/ui'
-import type { NewsCategory, Profile, PublishStatus, Role } from '../types/content'
+import type {
+  BillStatus,
+  DocStatus,
+  IntlDocKind,
+  NewsCategory,
+  Profile,
+  PublishStatus,
+  Role
+} from '../types/content'
 
 const roleLabels: Record<Role, string> = {
   user: 'Пользователь',
@@ -37,7 +70,26 @@ const statusLabels: Record<PublishStatus, string> = {
   archived: 'Архив'
 }
 
-const emptyDraft: NewsDraft = {
+type AdminTab = 'news' | 'bill' | 'law' | 'intl'
+
+const tabs: Array<{ id: AdminTab; label: string }> = [
+  { id: 'news', label: 'Новости' },
+  { id: 'bill', label: 'Законопроекты' },
+  { id: 'law', label: 'Законы и НПА' },
+  { id: 'intl', label: 'Международные документы' }
+]
+
+function allowedTab(tab: AdminTab, role: Role): boolean {
+  if (tab === 'news') return canManageNews(role)
+  if (tab === 'bill') return canManageDuma(role)
+  return canManageContent(role)
+}
+
+function firstAllowedTab(role: Role): AdminTab | null {
+  return tabs.find((tab) => allowedTab(tab.id, role))?.id ?? null
+}
+
+const emptyNewsDraft: NewsDraft = {
   title: '',
   summary: '',
   body: '',
@@ -45,6 +97,73 @@ const emptyDraft: NewsDraft = {
   author: '',
   status: 'draft',
   is_demo: false
+}
+
+const emptyBillDraft: BillDraft = {
+  number: '',
+  title: '',
+  summary: '',
+  status: 'submitted',
+  is_demo: false,
+  initiator: 'Дума КФ',
+  submitted_on: new Date().toISOString().slice(0, 10),
+  related_law_number: ''
+}
+
+const emptyLawDraft: LawDraft = {
+  doc_number: '',
+  title: '',
+  doc_type: 'Законы КФ',
+  category: '',
+  authority: 'Дума КФ',
+  adopted_on: new Date().toISOString().slice(0, 10),
+  published_on: new Date().toISOString().slice(0, 10),
+  effective_on: new Date().toISOString().slice(0, 10),
+  revision: 'Редакция 1',
+  status: 'draft',
+  is_demo: false,
+  summary: '',
+  body: '',
+  related_numbers: ''
+}
+
+const emptyIntlDraft: IntlDraft = {
+  title: '',
+  kind: 'agreement',
+  country: '',
+  signed_on: new Date().toISOString().slice(0, 10),
+  status: 'Подготовлен',
+  is_demo: false,
+  summary: '',
+  body: '',
+  published: false
+}
+
+type Message = { tone: 'success' | 'error'; text: string } | null
+
+function ManagerToolbar({
+  profile,
+  description,
+  onNew
+}: {
+  profile: Profile
+  description: string
+  onNew: () => void
+}) {
+  return (
+    <div className="admin-toolbar">
+      <div>
+        <p className="admin-user">
+          {profile.display_name || 'Сотрудник портала'}
+          <Badge tone="navy">{roleLabels[profile.role]}</Badge>
+        </p>
+        <p className="muted small">{description}</p>
+      </div>
+      <button className="btn btn-secondary btn-sm" type="button" onClick={onNew}>
+        Новый материал
+      </button>
+    </div>
+  )
 }
 
 function LoginForm() {
@@ -121,15 +240,15 @@ function LoginForm() {
 function NewsManager({ profile }: { profile: Profile }) {
   const [refresh, setRefresh] = useState(0)
   const { data, loading, error } = useAsync(() => fetchNewsForAdmin(), [refresh])
-  const [draft, setDraft] = useState<NewsDraft>(emptyDraft)
+  const [draft, setDraft] = useState<NewsDraft>(emptyNewsDraft)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
-  const [message, setMessage] = useState<{ tone: 'success' | 'error'; text: string } | null>(null)
+  const [message, setMessage] = useState<Message>(null)
 
   const posts = data ?? []
 
   function startNew() {
-    setDraft(emptyDraft)
+    setDraft(emptyNewsDraft)
     setEditingId(null)
     setMessage(null)
     document.getElementById('news-editor')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -163,7 +282,7 @@ function NewsManager({ profile }: { profile: Profile }) {
     try {
       await saveNews({ ...draft, id: editingId ?? undefined })
       setMessage({ tone: 'success', text: editingId ? 'Публикация обновлена.' : 'Публикация создана.' })
-      setDraft(emptyDraft)
+      setDraft(emptyNewsDraft)
       setEditingId(null)
       setRefresh((value) => value + 1)
     } catch (err) {
@@ -180,7 +299,7 @@ function NewsManager({ profile }: { profile: Profile }) {
       setMessage({ tone: 'success', text: 'Публикация удалена.' })
       if (editingId === id) {
         setEditingId(null)
-        setDraft(emptyDraft)
+        setDraft(emptyNewsDraft)
       }
       setRefresh((value) => value + 1)
     } catch (err) {
@@ -190,18 +309,11 @@ function NewsManager({ profile }: { profile: Profile }) {
 
   return (
     <div className="admin-workspace">
-      <div className="admin-toolbar">
-        <div>
-          <p className="admin-user">
-            {profile.display_name || 'Сотрудник портала'}
-            <Badge tone="navy">{roleLabels[profile.role]}</Badge>
-          </p>
-          <p className="muted small">Управление новостями. Доступ проверяется политиками Supabase RLS.</p>
-        </div>
-        <button className="btn btn-secondary btn-sm" type="button" onClick={startNew}>
-          Новая публикация
-        </button>
-      </div>
+      <ManagerToolbar
+        profile={profile}
+        description="Управление новостями. Доступ проверяется политиками Supabase RLS."
+        onNew={startNew}
+      />
 
       {message ? (
         <Notice tone={message.tone === 'success' ? 'success' : 'error'}>{message.text}</Notice>
@@ -213,7 +325,7 @@ function NewsManager({ profile }: { profile: Profile }) {
         <ErrorState message={error} />
       ) : posts.length === 0 ? (
         <EmptyState title="Публикаций пока нет">
-          Создайте первую публикацию или примените демонстрационный набор данных.
+          Создайте первую публикацию. Демонстрационные записи можно удалить из этой панели.
         </EmptyState>
       ) : (
         <div className="table-wrap">
@@ -273,9 +385,9 @@ function NewsManager({ profile }: { profile: Profile }) {
         <div className="panel-body">
           <form className="admin-form" onSubmit={submit}>
             <div className="field">
-              <label htmlFor="post-title">Заголовок</label>
+              <label htmlFor="news-title">Заголовок</label>
               <input
-                id="post-title"
+                id="news-title"
                 className="input"
                 value={draft.title}
                 onChange={(event) => setDraft({ ...draft, title: event.target.value })}
@@ -284,9 +396,9 @@ function NewsManager({ profile }: { profile: Profile }) {
               />
             </div>
             <div className="field">
-              <label htmlFor="post-summary">Краткое описание</label>
+              <label htmlFor="news-summary">Краткое описание</label>
               <textarea
-                id="post-summary"
+                id="news-summary"
                 className="input textarea"
                 rows={3}
                 value={draft.summary}
@@ -295,9 +407,9 @@ function NewsManager({ profile }: { profile: Profile }) {
               />
             </div>
             <div className="field">
-              <label htmlFor="post-body">Полный текст</label>
+              <label htmlFor="news-body">Полный текст</label>
               <textarea
-                id="post-body"
+                id="news-body"
                 className="input textarea"
                 rows={10}
                 value={draft.body}
@@ -307,9 +419,9 @@ function NewsManager({ profile }: { profile: Profile }) {
             </div>
             <div className="admin-form-row">
               <div className="field">
-                <label htmlFor="post-category">Категория</label>
+                <label htmlFor="news-category">Категория</label>
                 <select
-                  id="post-category"
+                  id="news-category"
                   className="select"
                   value={draft.category}
                   onChange={(event) =>
@@ -324,9 +436,9 @@ function NewsManager({ profile }: { profile: Profile }) {
                 </select>
               </div>
               <div className="field">
-                <label htmlFor="post-status">Статус</label>
+                <label htmlFor="news-status">Статус</label>
                 <select
-                  id="post-status"
+                  id="news-status"
                   className="select"
                   value={draft.status}
                   onChange={(event) =>
@@ -340,9 +452,9 @@ function NewsManager({ profile }: { profile: Profile }) {
               </div>
             </div>
             <div className="field">
-              <label htmlFor="post-author">Автор или орган</label>
+              <label htmlFor="news-author">Автор или орган</label>
               <input
-                id="post-author"
+                id="news-author"
                 className="input"
                 value={draft.author}
                 onChange={(event) => setDraft({ ...draft, author: event.target.value })}
@@ -369,6 +481,891 @@ function NewsManager({ profile }: { profile: Profile }) {
         </div>
       </section>
     </div>
+  )
+}
+
+function BillManager({ profile }: { profile: Profile }) {
+  const [refresh, setRefresh] = useState(0)
+  const { data, loading, error } = useAsync(() => fetchBillsForAdmin(), [refresh])
+  const [draft, setDraft] = useState<BillDraft>(emptyBillDraft)
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [saving, setSaving] = useState(false)
+  const [message, setMessage] = useState<Message>(null)
+
+  const bills = data ?? []
+
+  function startNew() {
+    setDraft(emptyBillDraft)
+    setEditingId(null)
+    setMessage(null)
+    document.getElementById('bill-editor')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  function startEdit(id: string) {
+    const bill = bills.find((item) => item.id === id)
+    if (!bill) return
+    setDraft({
+      number: bill.number,
+      title: bill.title,
+      summary: bill.summary ?? '',
+      status: bill.status,
+      is_demo: bill.is_demo,
+      initiator: bill.initiator,
+      submitted_on: bill.submitted_on ?? '',
+      related_law_number: bill.related_law_number ?? ''
+    })
+    setEditingId(bill.id)
+    setMessage(null)
+    document.getElementById('bill-editor')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  async function submit(event: FormEvent) {
+    event.preventDefault()
+    if (draft.number.trim().length < 2 || draft.title.trim().length < 3) {
+      setMessage({ tone: 'error', text: 'Укажите номер и заголовок законопроекта.' })
+      return
+    }
+    setSaving(true)
+    setMessage(null)
+    try {
+      await saveBill({ ...draft, id: editingId ?? undefined })
+      setMessage({ tone: 'success', text: editingId ? 'Законопроект обновлён.' : 'Законопроект создан.' })
+      setDraft(emptyBillDraft)
+      setEditingId(null)
+      setRefresh((value) => value + 1)
+    } catch (err) {
+      setMessage({ tone: 'error', text: errorMessage(err) })
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  async function remove(id: string, title: string) {
+    if (!window.confirm(`Удалить законопроект «${title}»? Действие необратимо.`)) return
+    try {
+      await deleteBill(id)
+      setMessage({ tone: 'success', text: 'Законопроект удалён.' })
+      if (editingId === id) {
+        setEditingId(null)
+        setDraft(emptyBillDraft)
+      }
+      setRefresh((value) => value + 1)
+    } catch (err) {
+      setMessage({ tone: 'error', text: errorMessage(err) })
+    }
+  }
+
+  return (
+    <div className="admin-workspace">
+      <ManagerToolbar
+        profile={profile}
+        description="Управление законопроектами Думы. Доступ проверяется политиками Supabase RLS."
+        onNew={startNew}
+      />
+
+      {message ? (
+        <Notice tone={message.tone === 'success' ? 'success' : 'error'}>{message.text}</Notice>
+      ) : null}
+
+      {loading ? (
+        <Loading />
+      ) : error ? (
+        <ErrorState message={error} />
+      ) : bills.length === 0 ? (
+        <EmptyState title="Законопроектов пока нет">
+          Создайте первую запись или удалите демонстрационные материалы.
+        </EmptyState>
+      ) : (
+        <div className="table-wrap">
+          <table className="data-table admin-table">
+            <caption className="visually-hidden">Список законопроектов</caption>
+            <thead>
+              <tr>
+                <th scope="col">Номер и название</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Внесён</th>
+                <th scope="col">Обновлено</th>
+                <th scope="col">Действия</th>
+              </tr>
+            </thead>
+            <tbody>
+              {bills.map((bill) => (
+                <tr key={bill.id}>
+                  <td>
+                    <span className="admin-post-title">{bill.title}</span>
+                    <span className="doc-number">№ {bill.number}</span>
+                    {bill.is_demo ? <span className="demo-inline">Демо</span> : null}
+                  </td>
+                  <td>
+                    <Badge tone={billStatusTone(bill.status)}>{billStatusLabels[bill.status]}</Badge>
+                  </td>
+                  <td>{formatDate(bill.submitted_on)}</td>
+                  <td>{formatDateTime(bill.updated_at)}</td>
+                  <td className="admin-row-actions">
+                    <button className="text-button" type="button" onClick={() => startEdit(bill.id)}>
+                      Изменить
+                    </button>
+                    <button
+                      className="text-button text-button-danger"
+                      type="button"
+                      onClick={() => remove(bill.id, bill.title)}
+                    >
+                      Удалить
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      <section className="panel" id="bill-editor">
+        <div className="panel-head">
+          <h2>{editingId ? 'Редактирование законопроекта' : 'Новый законопроект'}</h2>
+          {editingId ? (
+            <button className="text-button" type="button" onClick={startNew}>
+              Отменить редактирование
+            </button>
+          ) : null}
+        </div>
+        <div className="panel-body">
+          <form className="admin-form" onSubmit={submit}>
+            <div className="admin-form-row">
+              <div className="field">
+                <label htmlFor="bill-number">Номер законопроекта</label>
+                <input
+                  id="bill-number"
+                  className="input"
+                  value={draft.number}
+                  onChange={(event) => setDraft({ ...draft, number: event.target.value })}
+                  placeholder="Например: КФ-ЗП-05"
+                  required
+                />
+              </div>
+              <div className="field">
+                <label htmlFor="bill-status">Статус рассмотрения</label>
+                <select
+                  id="bill-status"
+                  className="select"
+                  value={draft.status}
+                  onChange={(event) => setDraft({ ...draft, status: event.target.value as BillStatus })}
+                >
+                  {(Object.keys(billStatusLabels) as BillStatus[]).map((status) => (
+                    <option key={status} value={status}>
+                      {billStatusLabels[status]}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="field">
+              <label htmlFor="bill-title">Заголовок</label>
+              <input
+                id="bill-title"
+                className="input"
+                value={draft.title}
+                onChange={(event) => setDraft({ ...draft, title: event.target.value })}
+                maxLength={200}
+                required
+              />
+            </div>
+            <div className="field">
+              <label htmlFor="bill-summary">Краткое описание</label>
+              <textarea
+                id="bill-summary"
+                className="input textarea"
+                rows={4}
+                value={draft.summary}
+                onChange={(event) => setDraft({ ...draft, summary: event.target.value })}
+                maxLength={600}
+              />
+            </div>
+            <div className="admin-form-row">
+              <div className="field">
+                <label htmlFor="bill-date">Дата внесения</label>
+                <input
+                  id="bill-date"
+                  className="input"
+                  type="date"
+                  value={draft.submitted_on}
+                  onChange={(event) => setDraft({ ...draft, submitted_on: event.target.value })}
+                />
+              </div>
+              <div className="field">
+                <label htmlFor="bill-initiator">Инициатор</label>
+                <input
+                  id="bill-initiator"
+                  className="input"
+                  value={draft.initiator}
+                  onChange={(event) => setDraft({ ...draft, initiator: event.target.value })}
+                  placeholder="Например: Дума КФ"
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label htmlFor="bill-related">Связанный закон</label>
+              <input
+                id="bill-related"
+                className="input"
+                value={draft.related_law_number}
+                onChange={(event) => setDraft({ ...draft, related_law_number: event.target.value })}
+                placeholder="Номер итогового закона, если известен"
+              />
+            </div>
+            <label className="checkbox-row">
+              <input
+                type="checkbox"
+                checked={draft.is_demo}
+                onChange={(event) => setDraft({ ...draft, is_demo: event.target.checked })}
+              />
+              <span>Пометить материал как демонстрационный</span>
+            </label>
+            <div className="admin-form-actions">
+              <button className="btn btn-primary" type="submit" disabled={saving}>
+                {saving ? 'Сохранение…' : 'Сохранить'}
+              </button>
+              <Link className="btn btn-ghost" to="/duma">
+                Открыть раздел Думы
+              </Link>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+  )
+}
+
+function LawManager({ profile }: { profile: Profile }) {
+  const [refresh, setRefresh] = useState(0)
+  const { data, loading, error } = useAsync(() => fetchLawsForAdmin(), [refresh])
+  const [draft, setDraft] = useState<LawDraft>(emptyLawDraft)
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [saving, setSaving] = useState(false)
+  const [message, setMessage] = useState<Message>(null)
+
+  const documents = data ?? []
+
+  function startNew() {
+    setDraft(emptyLawDraft)
+    setEditingId(null)
+    setMessage(null)
+    document.getElementById('law-editor')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  function startEdit(id: string) {
+    const doc = documents.find((item) => item.id === id)
+    if (!doc) return
+    setDraft({
+      doc_number: doc.doc_number,
+      title: doc.title,
+      doc_type: doc.doc_type,
+      category: doc.category,
+      authority: doc.authority,
+      adopted_on: doc.adopted_on ?? '',
+      published_on: doc.published_on ?? '',
+      effective_on: doc.effective_on ?? '',
+      revision: doc.revision ?? '',
+      status: doc.status,
+      is_demo: doc.is_demo,
+      summary: doc.summary ?? '',
+      body: doc.body ?? '',
+      related_numbers: (doc.related_numbers ?? []).join(', ')
+    })
+    setEditingId(doc.id)
+    setMessage(null)
+    document.getElementById('law-editor')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  async function submit(event: FormEvent) {
+    event.preventDefault()
+    if (draft.doc_number.trim().length < 2 || draft.title.trim().length < 3) {
+      setMessage({ tone: 'error', text: 'Укажите номер и название документа.' })
+      return
+    }
+    setSaving(true)
+    setMessage(null)
+    try {
+      await saveLaw({ ...draft, id: editingId ?? undefined })
+      setMessage({ tone: 'success', text: editingId ? 'Документ обновлён.' : 'Документ создан.' })
+      setDraft(emptyLawDraft)
+      setEditingId(null)
+      setRefresh((value) => value + 1)
+    } catch (err) {
+      setMessage({ tone: 'error', text: errorMessage(err) })
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  async function remove(id: string, title: string) {
+    if (!window.confirm(`Удалить документ «${title}»? Действие необратимо.`)) return
+    try {
+      await deleteLaw(id)
+      setMessage({ tone: 'success', text: 'Документ удалён.' })
+      if (editingId === id) {
+        setEditingId(null)
+        setDraft(emptyLawDraft)
+      }
+      setRefresh((value) => value + 1)
+    } catch (err) {
+      setMessage({ tone: 'error', text: errorMessage(err) })
+    }
+  }
+
+  return (
+    <div className="admin-workspace">
+      <ManagerToolbar
+        profile={profile}
+        description="Управление законами и нормативными актами. Доступ проверяется политиками Supabase RLS."
+        onNew={startNew}
+      />
+
+      {message ? (
+        <Notice tone={message.tone === 'success' ? 'success' : 'error'}>{message.text}</Notice>
+      ) : null}
+
+      {loading ? (
+        <Loading />
+      ) : error ? (
+        <ErrorState message={error} />
+      ) : documents.length === 0 ? (
+        <EmptyState title="Документов пока нет">
+          Создайте первый нормативный акт или удалите демонстрационные материалы.
+        </EmptyState>
+      ) : (
+        <div className="table-wrap">
+          <table className="data-table admin-table">
+            <caption className="visually-hidden">Список нормативных актов</caption>
+            <thead>
+              <tr>
+                <th scope="col">Номер и название</th>
+                <th scope="col">Тип</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Принят</th>
+                <th scope="col">Действия</th>
+              </tr>
+            </thead>
+            <tbody>
+              {documents.map((doc) => (
+                <tr key={doc.id}>
+                  <td>
+                    <span className="admin-post-title">{doc.title}</span>
+                    <span className="doc-number">№ {doc.doc_number}</span>
+                    {doc.is_demo ? <span className="demo-inline">Демо</span> : null}
+                  </td>
+                  <td>{doc.doc_type}</td>
+                  <td>
+                    <Badge tone={docStatusTone(doc.status)}>{docStatusLabels[doc.status]}</Badge>
+                  </td>
+                  <td>{formatDate(doc.adopted_on)}</td>
+                  <td className="admin-row-actions">
+                    <button className="text-button" type="button" onClick={() => startEdit(doc.id)}>
+                      Изменить
+                    </button>
+                    <button
+                      className="text-button text-button-danger"
+                      type="button"
+                      onClick={() => remove(doc.id, doc.title)}
+                    >
+                      Удалить
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      <section className="panel" id="law-editor">
+        <div className="panel-head">
+          <h2>{editingId ? 'Редактирование документа' : 'Новый документ'}</h2>
+          {editingId ? (
+            <button className="text-button" type="button" onClick={startNew}>
+              Отменить редактирование
+            </button>
+          ) : null}
+        </div>
+        <div className="panel-body">
+          <form className="admin-form" onSubmit={submit}>
+            <div className="admin-form-row">
+              <div className="field">
+                <label htmlFor="law-type">Тип документа</label>
+                <select
+                  id="law-type"
+                  className="select"
+                  value={draft.doc_type}
+                  onChange={(event) => setDraft({ ...draft, doc_type: event.target.value })}
+                >
+                  {docTypeOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="field">
+                <label htmlFor="law-number">Номер документа</label>
+                <input
+                  id="law-number"
+                  className="input"
+                  value={draft.doc_number}
+                  onChange={(event) => setDraft({ ...draft, doc_number: event.target.value })}
+                  placeholder="Например: КФ-З-14"
+                  required
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label htmlFor="law-title">Название</label>
+              <input
+                id="law-title"
+                className="input"
+                value={draft.title}
+                onChange={(event) => setDraft({ ...draft, title: event.target.value })}
+                maxLength={240}
+                required
+              />
+            </div>
+            <div className="admin-form-row">
+              <div className="field">
+                <label htmlFor="law-status">Статус</label>
+                <select
+                  id="law-status"
+                  className="select"
+                  value={draft.status}
+                  onChange={(event) => setDraft({ ...draft, status: event.target.value as DocStatus })}
+                >
+                  {(Object.keys(docStatusLabels) as DocStatus[]).map((status) => (
+                    <option key={status} value={status}>
+                      {docStatusLabels[status]}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="field">
+                <label htmlFor="law-authority">Принявший орган</label>
+                <input
+                  id="law-authority"
+                  className="input"
+                  value={draft.authority}
+                  onChange={(event) => setDraft({ ...draft, authority: event.target.value })}
+                  placeholder="Например: Дума КФ"
+                />
+              </div>
+            </div>
+            <div className="admin-form-row">
+              <div className="field">
+                <label htmlFor="law-adopted">Дата принятия</label>
+                <input
+                  id="law-adopted"
+                  className="input"
+                  type="date"
+                  value={draft.adopted_on}
+                  onChange={(event) => setDraft({ ...draft, adopted_on: event.target.value })}
+                />
+              </div>
+              <div className="field">
+                <label htmlFor="law-published">Дата опубликования</label>
+                <input
+                  id="law-published"
+                  className="input"
+                  type="date"
+                  value={draft.published_on}
+                  onChange={(event) => setDraft({ ...draft, published_on: event.target.value })}
+                />
+              </div>
+              <div className="field">
+                <label htmlFor="law-effective">Вступает в силу</label>
+                <input
+                  id="law-effective"
+                  className="input"
+                  type="date"
+                  value={draft.effective_on}
+                  onChange={(event) => setDraft({ ...draft, effective_on: event.target.value })}
+                />
+              </div>
+            </div>
+            <div className="admin-form-row">
+              <div className="field">
+                <label htmlFor="law-revision">Редакция</label>
+                <input
+                  id="law-revision"
+                  className="input"
+                  value={draft.revision}
+                  onChange={(event) => setDraft({ ...draft, revision: event.target.value })}
+                  placeholder="Например: Редакция 1"
+                />
+              </div>
+              <div className="field">
+                <label htmlFor="law-related">Связанные документы</label>
+                <input
+                  id="law-related"
+                  className="input"
+                  value={draft.related_numbers}
+                  onChange={(event) => setDraft({ ...draft, related_numbers: event.target.value })}
+                  placeholder="Номера через запятую"
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label htmlFor="law-summary">Краткое описание</label>
+              <textarea
+                id="law-summary"
+                className="input textarea"
+                rows={3}
+                value={draft.summary}
+                onChange={(event) => setDraft({ ...draft, summary: event.target.value })}
+                maxLength={600}
+              />
+            </div>
+            <div className="field">
+              <label htmlFor="law-body">Полный текст</label>
+              <textarea
+                id="law-body"
+                className="input textarea"
+                rows={10}
+                value={draft.body}
+                onChange={(event) => setDraft({ ...draft, body: event.target.value })}
+              />
+              <p className="field-hint">Абзацы разделяются пустой строкой.</p>
+            </div>
+            <label className="checkbox-row">
+              <input
+                type="checkbox"
+                checked={draft.is_demo}
+                onChange={(event) => setDraft({ ...draft, is_demo: event.target.checked })}
+              />
+              <span>Пометить материал как демонстрационный</span>
+            </label>
+            <div className="admin-form-actions">
+              <button className="btn btn-primary" type="submit" disabled={saving}>
+                {saving ? 'Сохранение…' : 'Сохранить'}
+              </button>
+              <Link className="btn btn-ghost" to="/legislation">
+                Открыть правовую базу
+              </Link>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+  )
+}
+
+function IntlManager({ profile }: { profile: Profile }) {
+  const [refresh, setRefresh] = useState(0)
+  const { data, loading, error } = useAsync(() => fetchIntlForAdmin(), [refresh])
+  const [draft, setDraft] = useState<IntlDraft>(emptyIntlDraft)
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [saving, setSaving] = useState(false)
+  const [message, setMessage] = useState<Message>(null)
+
+  const documents = data ?? []
+
+  function startNew() {
+    setDraft(emptyIntlDraft)
+    setEditingId(null)
+    setMessage(null)
+    document.getElementById('intl-editor')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  function startEdit(id: string) {
+    const doc = documents.find((item) => item.id === id)
+    if (!doc) return
+    setDraft({
+      title: doc.title,
+      kind: doc.kind,
+      country: doc.country,
+      signed_on: doc.signed_on ?? '',
+      status: doc.status,
+      is_demo: doc.is_demo,
+      summary: doc.summary ?? '',
+      body: doc.body ?? '',
+      published: doc.published
+    })
+    setEditingId(doc.id)
+    setMessage(null)
+    document.getElementById('intl-editor')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  async function submit(event: FormEvent) {
+    event.preventDefault()
+    if (draft.title.trim().length < 3) {
+      setMessage({ tone: 'error', text: 'Заголовок должен содержать не менее 3 символов.' })
+      return
+    }
+    setSaving(true)
+    setMessage(null)
+    try {
+      await saveIntl({ ...draft, id: editingId ?? undefined })
+      setMessage({ tone: 'success', text: editingId ? 'Документ обновлён.' : 'Документ создан.' })
+      setDraft(emptyIntlDraft)
+      setEditingId(null)
+      setRefresh((value) => value + 1)
+    } catch (err) {
+      setMessage({ tone: 'error', text: errorMessage(err) })
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  async function remove(id: string, title: string) {
+    if (!window.confirm(`Удалить международный документ «${title}»? Действие необратимо.`)) return
+    try {
+      await deleteIntl(id)
+      setMessage({ tone: 'success', text: 'Документ удалён.' })
+      if (editingId === id) {
+        setEditingId(null)
+        setDraft(emptyIntlDraft)
+      }
+      setRefresh((value) => value + 1)
+    } catch (err) {
+      setMessage({ tone: 'error', text: errorMessage(err) })
+    }
+  }
+
+  return (
+    <div className="admin-workspace">
+      <ManagerToolbar
+        profile={profile}
+        description="Управление международными документами. Доступ проверяется политиками Supabase RLS."
+        onNew={startNew}
+      />
+
+      {message ? (
+        <Notice tone={message.tone === 'success' ? 'success' : 'error'}>{message.text}</Notice>
+      ) : null}
+
+      {loading ? (
+        <Loading />
+      ) : error ? (
+        <ErrorState message={error} />
+      ) : documents.length === 0 ? (
+        <EmptyState title="Документов пока нет">
+          Создайте первую запись или удалите демонстрационные материалы.
+        </EmptyState>
+      ) : (
+        <div className="table-wrap">
+          <table className="data-table admin-table">
+            <caption className="visually-hidden">Список международных документов</caption>
+            <thead>
+              <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Тип</th>
+                <th scope="col">Страна</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Подписан</th>
+                <th scope="col">Действия</th>
+              </tr>
+            </thead>
+            <tbody>
+              {documents.map((doc) => (
+                <tr key={doc.id}>
+                  <td>
+                    <span className="admin-post-title">{doc.title}</span>
+                    {doc.is_demo ? <span className="demo-inline">Демо</span> : null}
+                  </td>
+                  <td>{intlKindLabels[doc.kind]}</td>
+                  <td>{doc.country || '—'}</td>
+                  <td>
+                    <Badge tone={doc.published ? 'green' : 'amber'}>
+                      {doc.published ? 'Опубликован' : 'Черновик'}
+                    </Badge>
+                    <span className="muted small">{doc.status}</span>
+                  </td>
+                  <td>{formatDate(doc.signed_on)}</td>
+                  <td className="admin-row-actions">
+                    <button className="text-button" type="button" onClick={() => startEdit(doc.id)}>
+                      Изменить
+                    </button>
+                    <button
+                      className="text-button text-button-danger"
+                      type="button"
+                      onClick={() => remove(doc.id, doc.title)}
+                    >
+                      Удалить
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      <section className="panel" id="intl-editor">
+        <div className="panel-head">
+          <h2>{editingId ? 'Редактирование документа' : 'Новый документ'}</h2>
+          {editingId ? (
+            <button className="text-button" type="button" onClick={startNew}>
+              Отменить редактирование
+            </button>
+          ) : null}
+        </div>
+        <div className="panel-body">
+          <form className="admin-form" onSubmit={submit}>
+            <div className="field">
+              <label htmlFor="intl-title">Название</label>
+              <input
+                id="intl-title"
+                className="input"
+                value={draft.title}
+                onChange={(event) => setDraft({ ...draft, title: event.target.value })}
+                maxLength={240}
+                required
+              />
+            </div>
+            <div className="admin-form-row">
+              <div className="field">
+                <label htmlFor="intl-kind">Тип материала</label>
+                <select
+                  id="intl-kind"
+                  className="select"
+                  value={draft.kind}
+                  onChange={(event) =>
+                    setDraft({ ...draft, kind: event.target.value as IntlDocKind })
+                  }
+                >
+                  {(Object.keys(intlKindLabels) as IntlDocKind[]).map((kind) => (
+                    <option key={kind} value={kind}>
+                      {intlKindLabels[kind]}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="field">
+                <label htmlFor="intl-country">Страна или сторона</label>
+                <input
+                  id="intl-country"
+                  className="input"
+                  value={draft.country}
+                  onChange={(event) => setDraft({ ...draft, country: event.target.value })}
+                  placeholder="Например: Республика ..."
+                />
+              </div>
+            </div>
+            <div className="admin-form-row">
+              <div className="field">
+                <label htmlFor="intl-date">Дата подписания / принятия</label>
+                <input
+                  id="intl-date"
+                  className="input"
+                  type="date"
+                  value={draft.signed_on}
+                  onChange={(event) => setDraft({ ...draft, signed_on: event.target.value })}
+                />
+              </div>
+              <div className="field">
+                <label htmlFor="intl-status">Статус</label>
+                <input
+                  id="intl-status"
+                  className="input"
+                  value={draft.status}
+                  onChange={(event) => setDraft({ ...draft, status: event.target.value })}
+                  placeholder="Например: Подготовлен к подписанию"
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label htmlFor="intl-summary">Краткое описание</label>
+              <textarea
+                id="intl-summary"
+                className="input textarea"
+                rows={3}
+                value={draft.summary}
+                onChange={(event) => setDraft({ ...draft, summary: event.target.value })}
+                maxLength={600}
+              />
+            </div>
+            <div className="field">
+              <label htmlFor="intl-body">Полный текст</label>
+              <textarea
+                id="intl-body"
+                className="input textarea"
+                rows={10}
+                value={draft.body}
+                onChange={(event) => setDraft({ ...draft, body: event.target.value })}
+              />
+              <p className="field-hint">Абзацы разделяются пустой строкой.</p>
+            </div>
+            <label className="checkbox-row">
+              <input
+                type="checkbox"
+                checked={draft.published}
+                onChange={(event) => setDraft({ ...draft, published: event.target.checked })}
+              />
+              <span>Опубликовать документ</span>
+            </label>
+            <label className="checkbox-row">
+              <input
+                type="checkbox"
+                checked={draft.is_demo}
+                onChange={(event) => setDraft({ ...draft, is_demo: event.target.checked })}
+              />
+              <span>Пометить материал как демонстрационный</span>
+            </label>
+            <div className="admin-form-actions">
+              <button className="btn btn-primary" type="submit" disabled={saving}>
+                {saving ? 'Сохранение…' : 'Сохранить'}
+              </button>
+              <Link className="btn btn-ghost" to="/international">
+                Открыть международный раздел
+              </Link>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+  )
+}
+
+function Workspace({ profile }: { profile: Profile }) {
+  const initial = firstAllowedTab(profile.role)
+  const [tab, setTab] = useState<AdminTab>(initial ?? 'news')
+  const visibleTabs = tabs.filter((item) => allowedTab(item.id, profile.role))
+
+  if (!initial) {
+    return (
+      <Notice tone="warning" title="Недостаточно прав">
+        Роль «{roleLabels[profile.role]}» не позволяет управлять материалами. Обратитесь к
+        администратору портала для изменения роли. Публичный просмотр материалов доступен без входа.
+      </Notice>
+    )
+  }
+
+  return (
+    <>
+      <div className="tabs" role="tablist" aria-label="Типы материалов">
+        {visibleTabs.map((item) => (
+          <button
+            key={item.id}
+            className={`tab${tab === item.id ? ' active' : ''}`}
+            role="tab"
+            type="button"
+            aria-selected={tab === item.id}
+            aria-controls={`admin-panel-${item.id}`}
+            id={`admin-tab-${item.id}`}
+            onClick={() => setTab(item.id)}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+
+      <div
+        className="tab-panel"
+        role="tabpanel"
+        id={`admin-panel-${tab}`}
+        aria-labelledby={`admin-tab-${tab}`}
+      >
+        {tab === 'news' && canManageNews(profile.role) ? <NewsManager profile={profile} /> : null}
+        {tab === 'bill' && canManageDuma(profile.role) ? <BillManager profile={profile} /> : null}
+        {tab === 'law' && canManageContent(profile.role) ? <LawManager profile={profile} /> : null}
+        {tab === 'intl' && canManageContent(profile.role) ? <IntlManager profile={profile} /> : null}
+      </div>
+    </>
   )
 }
 
@@ -469,15 +1466,7 @@ export default function AdminPage() {
           </>
         ) : profile ? (
           <>
-            {!canManageNews(profile.role) ? (
-              <Notice tone="warning" title="Недостаточно прав">
-                Роль «{roleLabels[profile.role]}» не позволяет управлять новостями. Обратитесь к
-                администратору портала для изменения роли. Публичный просмотр материалов доступен без
-                входа.
-              </Notice>
-            ) : (
-              <NewsManager profile={profile} />
-            )}
+            <Workspace profile={profile} />
             <p className="admin-footer-actions">
               <button className="text-button" type="button" onClick={logout}>
                 Выйти из панели

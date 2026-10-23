@@ -1,3 +1,4 @@
+import { intlKindLabels } from '../lib/format'
 import { getSupabase, isSupabaseConfigured, NotConfiguredError } from '../lib/supabase'
 import type {
   Bill,
@@ -41,6 +42,7 @@ export async function fetchNews(params: {
     .from('news_posts')
     .select('*')
     .eq('status', 'published')
+    .eq('is_demo', false)
     .order('published_at', { ascending: params.sort === 'old', nullsFirst: false })
     .limit(params.limit ?? 60)
 
@@ -64,6 +66,7 @@ export async function fetchNewsById(id: string): Promise<NewsPost> {
     .select('*')
     .eq('id', id)
     .eq('status', 'published')
+    .eq('is_demo', false)
     .maybeSingle()
   if (error) throw new Error(error.message)
   if (!data) throw new Error('Публикация не найдена или ещё не опубликована.')
@@ -81,6 +84,7 @@ export async function fetchDocuments(params: {
   let query = db
     .from('legislation_documents')
     .select('*')
+    .eq('is_demo', false)
     .order('adopted_on', { ascending: params.sort === 'old', nullsFirst: false })
     .limit(params.limit ?? 80)
 
@@ -108,6 +112,7 @@ export async function fetchDocument(id: string): Promise<LegislationDocument> {
     .from('legislation_documents')
     .select('*')
     .eq('id', id)
+    .eq('is_demo', false)
     .maybeSingle()
   if (error) throw new Error(error.message)
   if (!data) throw new Error('Документ не найден.')
@@ -119,7 +124,7 @@ export async function fetchCodeArticles(
   params: { q?: string; category?: string } = {}
 ): Promise<CodeArticle[]> {
   const db = getSupabase()
-  let query = db.from('code_articles').select('*').eq('code_kind', kind)
+  let query = db.from('code_articles').select('*').eq('code_kind', kind).eq('is_demo', false)
 
   if (params.category && params.category !== 'all') {
     query = query.eq('category', params.category)
@@ -138,7 +143,7 @@ export async function fetchCodeArticles(
 
 export async function fetchCodeArticle(id: string): Promise<CodeArticle> {
   const db = getSupabase()
-  const { data, error } = await db.from('code_articles').select('*').eq('id', id).maybeSingle()
+  const { data, error } = await db.from('code_articles').select('*').eq('id', id).eq('is_demo', false).maybeSingle()
   if (error) throw new Error(error.message)
   if (!data) throw new Error('Статья не найдена.')
   return data as unknown as CodeArticle
@@ -152,6 +157,7 @@ export async function fetchBills(params: {
   let query = db
     .from('bills')
     .select('*')
+    .eq('is_demo', false)
     .order('submitted_on', { ascending: false, nullsFirst: false })
     .limit(100)
 
@@ -174,7 +180,7 @@ export async function fetchBill(id: string): Promise<{
   votes: Vote[]
 }> {
   const db = getSupabase()
-  const { data: bill, error } = await db.from('bills').select('*').eq('id', id).maybeSingle()
+  const { data: bill, error } = await db.from('bills').select('*').eq('id', id).eq('is_demo', false).maybeSingle()
   if (error) throw new Error(error.message)
   if (!bill) throw new Error('Законопроект не найден.')
 
@@ -227,6 +233,7 @@ export async function fetchIntlDocuments(): Promise<IntlDocument[]> {
     .from('intl_documents')
     .select('*')
     .eq('published', true)
+    .eq('is_demo', false)
     .order('signed_on', { ascending: false, nullsFirst: false })
     .limit(100)
   if (error) throw new Error(error.message)
@@ -243,16 +250,19 @@ export async function fetchHomeData(): Promise<HomeData> {
       .from('news_posts')
       .select('*')
       .eq('status', 'published')
+      .eq('is_demo', false)
       .order('published_at', { ascending: false, nullsFirst: false })
       .limit(6),
     db
       .from('legislation_documents')
       .select('*')
+      .eq('is_demo', false)
       .order('published_on', { ascending: false, nullsFirst: false })
       .limit(4),
     db
       .from('bills')
       .select('*')
+      .eq('is_demo', false)
       .order('submitted_on', { ascending: false, nullsFirst: false })
       .limit(4)
   ])
@@ -279,31 +289,42 @@ export async function globalSearch(term: string): Promise<SearchGroup[]> {
   const safe = searchTerm(term)
   if (!safe) return []
 
-  const [newsResult, docsResult, billsResult, codeResult] = await Promise.all([
+  const [newsResult, docsResult, billsResult, codeResult, intlResult] = await Promise.all([
     db
       .from('news_posts')
       .select('*')
       .eq('status', 'published')
+      .eq('is_demo', false)
       .or(`title.ilike.%${safe}%,summary.ilike.%${safe}%,body.ilike.%${safe}%`)
       .limit(10),
     db
       .from('legislation_documents')
       .select('*')
+      .eq('is_demo', false)
       .or(`doc_number.ilike.%${safe}%,title.ilike.%${safe}%,body.ilike.%${safe}%`)
       .limit(10),
     db
       .from('bills')
       .select('*')
+      .eq('is_demo', false)
       .or(`number.ilike.%${safe}%,title.ilike.%${safe}%,summary.ilike.%${safe}%`)
       .limit(10),
     db
       .from('code_articles')
       .select('*')
+      .eq('is_demo', false)
       .or(`article_number.ilike.%${safe}%,title.ilike.%${safe}%,description.ilike.%${safe}%`)
+      .limit(10),
+    db
+      .from('intl_documents')
+      .select('*')
+      .eq('published', true)
+      .eq('is_demo', false)
+      .or(`title.ilike.%${safe}%,summary.ilike.%${safe}%,body.ilike.%${safe}%,country.ilike.%${safe}%`)
       .limit(10)
   ])
 
-  for (const result of [newsResult, docsResult, billsResult, codeResult]) {
+  for (const result of [newsResult, docsResult, billsResult, codeResult, intlResult]) {
     if (result.error) throw new Error(result.error.message)
   }
 
@@ -311,6 +332,7 @@ export async function globalSearch(term: string): Promise<SearchGroup[]> {
   const docs = (docsResult.data || []) as unknown as LegislationDocument[]
   const bills = (billsResult.data || []) as unknown as Bill[]
   const code = (codeResult.data || []) as unknown as CodeArticle[]
+  const intl = (intlResult.data || []) as unknown as IntlDocument[]
 
   return [
     {
@@ -347,6 +369,15 @@ export async function globalSearch(term: string): Promise<SearchGroup[]> {
         title: `Ст. ${item.article_number}. ${item.title}`,
         meta: item.code_kind === 'criminal' ? 'Уголовный кодекс КФ' : 'Кодекс об административных правонарушениях',
         to: item.code_kind === 'criminal' ? `/criminal-code/${item.id}` : `/administrative-code/${item.id}`
+      }))
+    },
+    {
+      label: 'Международные отношения',
+      items: intl.map((item) => ({
+        id: item.id,
+        title: item.title,
+        meta: `${intlKindLabels[item.kind]} · ${item.country}`,
+        to: '/international'
       }))
     }
   ].filter((group) => group.items.length > 0)
